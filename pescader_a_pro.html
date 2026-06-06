@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pescadería Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<!-- ── LIBRERÍA DE ICONOS PROFESIONALES (PHOSPHOR ICONS) ── -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+/* ── TOKENS ──────────────────────────────────────── */
+:root {
+  --bg:        #111214;
+  --bg-trans:  rgba(17, 18, 20, 0.75);
+  --bg-1:      #18191d;
+  --bg-1-trans:rgba(24, 25, 29, 0.85);
+  --bg-2:      #1e2026;
+  --bg-3:      #252830;
+  --line:      rgba(255,255,255,0.07);
+  --line-hi:   rgba(255,255,255,0.13);
+
+  --accent:    #4ade80;        /* emerald */
+  --accent-dim: rgba(74,222,128,0.12);
+  --accent-border: rgba(74,222,128,0.3);
+  --accent-glow: rgba(74,222,128,0.25);
+
+  --red:       #f87171;
+  --red-dim:   rgba(248,113,113,0.12);
+  --red-border: rgba(248,113,113,0.28);
+
+  --amber:     #fbbf24;
+  --blue:      #60a5fa;
+
+  --t1: #f0f0f2;
+  --t2: #9095a0;
+  --t3: #50555f;
+
+  --r:  16px;       
+  --r-sm: 10px;
+  --r-xs: 6px;
+
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --serif: 'Instrument Serif', serif;
+  
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+/* ── TEMA CLARO ──────────────────────────────────── */
+:root[data-theme="light"] {
+  --bg:        #f3f4f6;
+  --bg-trans:  rgba(243, 244, 246, 0.75);
+  --bg-1:      #ffffff;
+  --bg-1-trans:rgba(255, 255, 255, 0.85);
+  --bg-2:      #f9fafb;
+  --bg-3:      #e5e7eb;
+  --line:      rgba(0,0,0,0.08);
+  --line-hi:   rgba(0,0,0,0.15);
+  
+  --accent:    #16a34a; 
+  --accent-dim: rgba(22,163,74,0.12);
+  --accent-border: rgba(22,163,74,0.3);
+  --accent-glow: rgba(22,163,74,0.2);
+
+  --red:       #ef4444;
+  --red-dim:   rgba(239,68,68,0.12);
+  --red-border: rgba(239,68,68,0.28);
+
+  --amber:     #f59e0b;
+  --blue:      #3b82f6;
+
+  --t1: #111827;
+  --t2: #4b5563;
+  --t3: #9ca3af;
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* ── RESET & BASE ────────────────────────────────── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html,body { height:100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--t1);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+input,select,button { font-family: inherit; }
+button { cursor: pointer; border: none; background: none; outline: none; }
+i.ph { line-height: 1; }
+
+/* ── ANIMACIONES GLOBALES ────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ── SCROLLBAR ───────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--t3); }
+
+/* ── LAYOUT ──────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── HEADER (GLASSMORPHISM) ──────────────────────── */
+header {
+  flex-shrink: 0;
+  background: var(--bg-trans);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 16px 0;
+  position: sticky; top: 0; z-index: 50;
+}
+
+.hd-top {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.logo { display: flex; align-items: center; gap: 7px; }
+.logo-name {
+  font-family: var(--serif); font-style: italic;
+  font-size: 22px; color: var(--t1); letter-spacing: -0.3px;
+}
+.logo-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--accent);
+}
+
+.hd-actions { display: flex; gap: 8px; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  background: var(--bg-2); border: 1px solid var(--line);
+  color: var(--t2); display: grid; place-items: center;
+  font-size: 18px; transition: all .2s;
+}
+@media(hover:hover) { .icon-btn:hover { color: var(--t1); border-color: var(--t3); transform: translateY(-1px); } }
+.icon-btn:active { transform: scale(0.95); }
+
+/* ── NAV ─────────────────────────────────────────── */
+nav { display: flex; gap: 0; justify-content: space-between; width: 100%; overflow-x: auto; scrollbar-width: none; }
+nav::-webkit-scrollbar { display: none; }
+.nav-item {
+  flex: 1; min-width: 68px; position: relative; padding: 10px 2px 8px;
+  font-size: 10px; font-weight: 600; color: var(--t3);
+  transition: all .2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  white-space: nowrap;
+}
+.nav-item i.ph { font-size: 20px; }
+@media(hover:hover) { .nav-item:hover { color: var(--t2); } }
+.nav-item::after {
+  content: ''; position: absolute; bottom: 0; left: 8px; right: 8px;
+  height: 2px; background: var(--accent); border-radius: 2px 2px 0 0;
+  opacity: 0; transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(2px);
+}
+.nav-item.active { color: var(--t1); }
+.nav-item.active::after { opacity: 1; transform: translateY(0); box-shadow: 0 -2px 8px var(--accent-glow); }
+.nav-dot { position: absolute; top: 8px; right: calc(50% - 14px); width: 6px; height: 6px; border-radius: 50%; background: var(--red); display: none; box-shadow: 0 0 6px var(--red); }
+.nav-dot.show { display: block; }
+
+/* ── CONTENT AREA ────────────────────────────────── */
+main { flex: 1; overflow-y: auto; padding: 20px 16px; }
+
+/* ── CARD (SHADOWS & DEPTH) ──────────────────────── */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-title {
+  font-size: 13px; font-weight: 700; color: var(--t1);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+
+/* ── STAT ROW ────────────────────────────────────── */
+.stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 24px; }
+.stat {
+  background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 14px 10px; text-align: center; cursor: pointer; transition: all .2s;
+  box-shadow: var(--shadow-sm); user-select: none;
+}
+@media(hover:hover) { .stat:hover { transform: translateY(-2px); border-color: var(--line-hi); } }
+.stat:active { transform: scale(.97); }
+.stat.active { border-color: var(--t2); background: var(--bg-2); }
+.stat-val { font-size: 24px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-val.g { color: var(--accent); }
+.stat-val.r { color: var(--red); }
+.stat-val.b { color: var(--blue); }
+.stat-val.a { color: var(--amber); }
+.stat-lbl { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--t3); margin-top: 6px; }
+
+/* ── SEARCH & INPUTS ─────────────────────────────── */
+.search-bar { position: relative; margin-bottom: 16px; }
+.search-bar input, .fc {
+  width: 100%; background: var(--bg-1); border: 1px solid var(--line);
+  border-radius: var(--r-sm); color: var(--t1); font-size: 13px; outline: none;
+  transition: all .2s; -webkit-appearance: none;
+}
+.search-bar input { padding: 12px 14px 12px 42px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+.fc { padding: 10px 12px; background: var(--bg-2); }
+.search-bar input:focus, .fc:focus { border-color: var(--accent-border); box-shadow: 0 0 0 3px var(--accent-dim); }
+.search-bar input::placeholder, .fc::placeholder { color: var(--t3); }
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 18px; pointer-events: none; color: var(--t3); }
+.fc option { background: var(--bg-2); color: var(--t1); }
+
+/* ── PILLS ───────────────────────────────────────── */
+.pill-row { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; overflow: visible; padding-bottom: 4px; }
+.pill {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--line);
+  background: var(--bg-1); color: var(--t2); font-size: 12px; font-weight: 600;
+  transition: all .2s; white-space: nowrap; display: flex; align-items: center; gap: 6px; cursor: pointer;
+}
+@media(hover:hover) { .pill:hover { border-color: var(--line-hi); color: var(--t1); } }
+.pill:active { transform: scale(0.96); }
+.pill.active { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
+
+/* ── CATEGORY ────────────────────────────────────── */
+.cat-block { margin-bottom: 10px; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--bg-1); box-shadow: var(--shadow-sm); transition: all 0.3s; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; user-select: none; transition: background 0.2s; }
+@media(hover:hover) { .cat-head:hover { background: var(--bg-2); } }
+.cat-head-left { display: flex; align-items: center; gap: 10px; }
+.cat-head-left .ph { font-size: 18px; color: var(--accent); opacity: 0.8; }
+.cat-name { font-size: 13px; font-weight: 600; color: var(--t1); }
+.cat-count { font-size: 11px; font-weight: 600; color: var(--t3); background: var(--bg-3); border-radius: 20px; padding: 2px 8px; }
+.cat-warn { font-size: 11px; color: var(--red); display:flex; align-items:center; gap:4px; font-weight: 500; }
+.cat-arrow { color: var(--t3); font-size: 14px; transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1); }
+.cat-block.open .cat-arrow { transform: rotate(180deg); }
+.cat-body { display: none; }
+.cat-block.open .cat-body { display: block; border-top: 1px solid var(--line); animation: fadeIn 0.3s ease; }
+
+/* ── PRODUCT ROW ─────────────────────────────────── */
+.prod-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); transition: all .2s; }
+.prod-row:last-child { border-bottom: none; }
+@media(hover:hover) { .prod-row:hover { background: var(--bg-2); } }
+.prod-info { flex: 1; min-width: 0; }
+.prod-name { font-size: 13px; font-weight: 600; color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prod-sub { font-size: 11px; color: var(--t3); margin-top: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.prod-loc { color: var(--blue); font-weight: 600; display:flex; align-items:center; gap:4px; background: rgba(96, 165, 250, 0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(96, 165, 250, 0.2); }
+
+/* ── STOCK PILLS & ACTIONS ───────────────────────── */
+.stock-pill {
+  padding: 0 10px; min-width: 62px; height: 30px; display: flex; align-items: center; justify-content: center;
+  border-radius: 20px; font-size: 12px; font-weight: 700; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.stock-pill.clickable { cursor: pointer; transition: all .2s; }
+@media(hover:hover) { .stock-pill.clickable:hover { filter: brightness(1.1); transform: translateY(-1px); } }
+.stock-pill.clickable:active { transform: scale(.95); }
+.sp-ok { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); }
+.sp-low { background: var(--red-dim); color: var(--red); border: 1px solid var(--red-border); }
+
+.stock-actions { display: flex; align-items: center; gap: 6px; }
+.step-btn {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: var(--r-xs); background: var(--bg-3);
+  border: 1px solid var(--line-hi); color: var(--t1); font-size: 14px; display: grid; place-items: center;
+  transition: all .2s; user-select: none;
+}
+@media(hover:hover) { .step-btn:hover { border-color: var(--t3); color: #fff; } }
+.step-btn:active { transform: scale(.9); }
+.step-btn.plus:active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.step-btn.minus:active { background: var(--red); color: var(--bg); border-color: var(--red); }
+
+/* ── CHECKLIST ───────────────────────────────────── */
+.chk-row {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--line);
+  border-radius: var(--r-sm); background: var(--bg-2); margin-bottom: 8px; cursor: pointer; transition: all .2s;
+}
+@media(hover:hover) { .chk-row:hover { border-color: var(--line-hi); transform: translateX(2px); } }
+.chk-row:active { transform: scale(.98); }
+.chk-row.done { background: var(--bg-3); border-color: transparent; opacity: 0.6; }
+.chk-box {
+  width: 24px; height: 24px; flex-shrink: 0; border: 2px solid var(--line-hi); border-radius: 6px;
+  display: grid; place-items: center; color: transparent; font-size: 14px; font-weight: bold; transition: all .2s;
+}
+.chk-row.done .chk-box { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.chk-text { font-size: 13px; font-weight: 500; color: var(--t1); transition: all .2s; line-height: 1.4; }
+.chk-row.done .chk-text { text-decoration: line-through; color: var(--t3); }
+
+.progress-bar { height: 6px; background: var(--bg-3); border-radius: 10px; overflow: hidden; margin-bottom: 16px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, var(--accent)); width: 0%; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ── BUTTONS (PREMIUM STYLES) ────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px;
+  border-radius: var(--r-sm); font-size: 13px; font-weight: 600; transition: all .2s; user-select: none; width: 100%;
+}
+@media(hover:hover) { .btn:hover { filter: brightness(1.1); transform: translateY(-1px); } }
+.btn:active { transform: scale(.96); }
+.btn i.ph { font-size: 16px; }
+
+.btn-primary { background: linear-gradient(135deg, #22c55e, var(--accent)); color: var(--bg); box-shadow: 0 4px 12px var(--accent-glow); text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.btn-secondary { background: var(--bg-3); border: 1px solid var(--line-hi); color: var(--t1); }
+.btn-ghost { background: transparent; border: 1px solid transparent; color: var(--t2); }
+@media(hover:hover){ .btn-ghost:hover { background: var(--bg-2); border-color: var(--line); } }
+.btn-danger { background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); }
+.btn-sm { padding: 8px 14px; font-size: 12px; border-radius: var(--r-xs); width: auto; }
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn { flex: 1; width: auto; }
+
+/* ── HISTORIAL ───────────────────────────────────── */
+.h-card {
+  background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow-sm); transition: all 0.2s;
+}
+@media(hover:hover) { .h-card:hover { border-color: var(--line-hi); transform: translateY(-2px); } }
+.h-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.h-id { font-size: 12px; font-weight: 700; letter-spacing: .5px; color: var(--accent); }
+.h-meta { font-size: 11px; color: var(--t3); margin-top: 4px; display:flex; align-items:center; gap:6px; }
+.h-prov { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: var(--bg-3); color: var(--t2); letter-spacing: .5px; }
+.h-items { font-size: 12px; color: var(--t2); margin-bottom: 14px; line-height: 1.6; }
+
+/* ── PEDIDOS CART (GLASSMORPHISM) ────────────────── */
+.cart-summary {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 850px;
+  background: var(--bg-1-trans); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line); padding: 14px 20px; z-index: 60; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.5); padding-bottom: calc(14px + env(safe-area-inset-bottom)); box-sizing: border-box;
+}
+
+/* ── MISC ────────────────────────────────────────── */
+.empty { text-align: center; padding: 60px 24px; color: var(--t3); animation: fadeIn 0.4s ease; }
+.empty-icon { font-size: 40px; margin-bottom: 12px; color: var(--t3); opacity: 0.5; }
+.empty p { font-size: 13px; line-height: 1.6; font-weight: 500; }
+.rm-btn { width: 28px; height: 28px; border-radius: var(--r-xs); background: var(--red-dim); border: 1px solid var(--red-border); color: var(--red); display: grid; place-items: center; font-size: 14px; cursor: pointer; transition: all .2s;}
+@media(hover:hover){ .rm-btn:hover { background: var(--red); color: #fff; } }
+.div { height: 1px; background: var(--line); margin: 16px 0; }
+.spacer { height: 20px; }
+
+/* ── ADMIN TABLE ─────────────────────────────────── */
+.tbl-wrap { border: 1px solid var(--line); border-radius: var(--r); overflow: auto; background: var(--bg-1); margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead th { text-align: left; padding: 10px 12px; background: var(--bg-2); color: var(--t3); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); }
+tbody td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--t1); transition: background 0.2s;}
+@media(hover:hover) { tbody tr:hover td { background: rgba(255,255,255,0.02); } }
+tbody tr:last-child td { border-bottom: none; }
+.tbl-in { width: 100%; background: transparent; border: 1px solid transparent; color: var(--t1); font-size: 12px; font-family: var(--font); outline: none; padding: 4px 6px; border-radius: 4px; transition: all .2s;}
+.tbl-in:focus, .tbl-in:hover { background: var(--bg-3); border-color: var(--line-hi); }
+.tbl-select { background: transparent; border: 1px solid transparent; color: var(--t2); font-size: 11px; font-family: var(--font); outline: none; width: 100%; padding: 4px; border-radius: 4px; cursor: pointer; -webkit-appearance: none; }
+.tbl-select:hover { background: var(--bg-3); }
+.tbl-select option { background: var(--bg-2); color: var(--t1); }
+
+/* ── MODAL ───────────────────────────────────────── */
+#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.2s; }
+#overlay.show { display: flex; opacity: 1; }
+.modal { background: var(--bg-1); border: 1px solid var(--line-hi); border-radius: 20px; padding: 24px; width: 100%; max-width: 450px; box-shadow: var(--shadow-md); transform: scale(0.95) translateY(20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto;}
+#overlay.show .modal { transform: scale(1) translateY(0); }
+.m-title { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 16px; color: var(--t1); }
+.m-body { margin-bottom: 20px; color: var(--t2); font-size: 13px; line-height: 1.6; }
+.m-actions { display: flex; flex-direction: column; gap: 10px; }
+
+/* ── TOAST ───────────────────────────────────────── */
+#toasts { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+.toast { padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: 1px solid var(--line-hi); background: var(--bg-1-trans); backdrop-filter: blur(10px); color: var(--t1); animation: tIn .3s cubic-bezier(0.16,1,0.3,1) forwards; box-shadow: var(--shadow-md); }
+.toast.ok { border-color: var(--accent-border); color: var(--accent); }
+.toast.err { border-color: var(--red-border); color: var(--red); }
+@keyframes tIn { from { transform: translateY(-16px) scale(.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes tOut { from { transform: translateY(0) scale(1); opacity: 1; } to { transform: translateY(-10px) scale(.9); opacity: 0; } }
+
+/* ── PRINT (PRESUPUESTO PROFESIONAL) ─────────────── */
+#print-section { display: none; }
+@media print {
+  body { background: #ffffff !important; color: #111827 !important; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+  .app, #overlay, #toasts { display: none !important; }
+  #print-section { display: block !important; width: 100%; max-width: 800px; margin: 0 auto; padding: 24px; box-sizing: border-box; }
+  
+  .p-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #111827; padding-bottom: 16px; margin-bottom: 24px; }
+  .p-logo { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: bold; font-style: italic; margin: 0; line-height: 1; color: #111827; }
+  .p-title { font-size: 12px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; text-align: right; margin:0; }
+  .p-meta { font-size: 11px; color: #6b7280; text-align: right; margin-top: 4px; }
+  
+  .p-box { background: #f9fafb !important; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 24px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .p-box p { margin: 4px 0; font-size: 13px; color: #374151; }
+  
+  .p-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
+  .p-table th { background: #f3f4f6 !important; padding: 10px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #4b5563; -webkit-print-color-adjust: exact; print-color-adjust: exact; border-bottom: 2px solid #d1d5db; }
+  .p-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; color: #111827; }
+  
+  .p-totals { width: 320px; margin-left: auto; border-top: 2px solid #111827; padding-top: 16px; }
+  .p-tot-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #374151; }
+  .p-tot-final { font-size: 20px; font-weight: 800; color: #111827; border-top: 1px solid #e5e7eb; padding-top: 10px; margin-top: 10px; }
+  
+  .p-footer { text-align: center; font-size: 11px; color: #6b7280; margin-top: 48px; padding-top: 16px; border-top: 1px dashed #d1d5db; }
+}
+</style>
+</head>
+<body>
+
+<div id="print-section"></div>
+<div id="toasts"></div>
+
+<div id="overlay" onclick="closeModal()">
+  <div class="modal fade-in" onclick="event.stopPropagation()">
+    <div class="m-title" id="mTitle"></div>
+    <div class="m-body"  id="mBody"></div>
+    <div class="m-actions" id="mActions"></div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- HEADER -->
+  <header>
+    <div class="hd-top">
+      <div class="logo">
+        <img id="biz-logo" src="" style="display:none; height: 26px; max-width: 80px; object-fit: contain; border-radius: 4px;">
+        <span class="logo-name" id="biz-name">Pescadería</span>
+        <span class="logo-tag" id="biz-tag">Pro</span>
+      </div>
+      <div class="hd-actions">
+        <button class="icon-btn" onclick="toggleTheme()" title="Cambiar Tema"><i id="theme-icon" class="ph ph-sun"></i></button>
+        <button class="icon-btn" onclick="openAudit()" title="Bitácora"><i class="ph ph-list-bullets"></i></button>
+        <button class="icon-btn" title="Usuario"><i class="ph ph-user"></i></button>
+      </div>
+    </div>
+    <nav id="nav">
+      <button class="nav-item active" onclick="go('stock',this)">
+        <i class="ph ph-package"></i> Stock <span class="nav-dot" id="dot-stock"></span>
+      </button>
+      <button class="nav-item" onclick="go('pedidos',this)">
+        <i class="ph ph-truck"></i> Pedidos <span class="nav-dot" id="dot-pedidos"></span>
+      </button>
+      <button class="nav-item" onclick="go('calculadora',this)">
+        <i class="ph ph-calculator"></i> Calculadora
+      </button>
+      <button class="nav-item" onclick="go('rutina',this)">
+        <i class="ph ph-check-square"></i> Rutina
+      </button>
+      <button class="nav-item" onclick="go('historial',this)">
+        <i class="ph ph-clock-counter-clockwise"></i> Historial
+      </button>
+      <button class="nav-item" onclick="go('admin',this)">
+        <i class="ph ph-gear"></i> Ajustes
+      </button>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main id="main" class="fade-in"></main>
+</div>
+
+<script>
+const SEED_CATS = [
+  { id:'filets',    icon:'<i class="ph ph-knife"></i>', name:'Filets' },
+  { id:'mariscos',  icon:'<i class="ph ph-anchor"></i>', name:'Mariscos' },
+  { id:'medallones',icon:'<i class="ph ph-hamburger"></i>', name:'Medallones' },
+  { id:'enteros',   icon:'<i class="ph ph-fish-simple"></i>', name:'Enteros' },
+  { id:'congelados',icon:'<i class="ph ph-snowflake"></i>', name:'Congelados' },
+  { id:'ahumados',  icon:'<i class="ph ph-fire"></i>', name:'Ahumados' },
+  { id:'conservas', icon:'<i class="ph ph-archive"></i>', name:'Conservas' },
+  { id:'otros',     icon:'<i class="ph ph-package"></i>', name:'Otros' },
+];
+
+const SEED_UNITS = ['kg', 'paq', 'lata', 'litro', 'atado', 'pomo', 'gr', 'caja', 'ud'];
+
+const SEED_CATALOG = [
+  {id:1,  name:'Filet de Merluza',      cat:'filets',    unit:'kg',   min:10, prov:'cooperativa', stock:15, locs:[{name:'Mostrador', qty:15}], hidden:false},
+  {id:2,  name:'Filet de Lenguado',     cat:'filets',    unit:'kg',   min:5,  prov:'cooperativa', stock:3,  locs:[{name:'Principal', qty:3}], hidden:false},
+  {id:3,  name:'Filet de Salmón',       cat:'filets',    unit:'kg',   min:8,  prov:'importados',  stock:12, locs:[{name:'Cámara FR', qty:12}], hidden:false},
+  {id:11, name:'Camarones Enteros',     cat:'mariscos',  unit:'kg',   min:5,  prov:'cooperativa', stock:7,  locs:[{name:'Freezer 1 - Abajo', qty:7}], hidden:false},
+  {id:12, name:'Camarones Pelados',     cat:'mariscos',  unit:'kg',   min:5,  prov:'cooperativa', stock:2,  locs:[{name:'Principal', qty:2}], hidden:false},
+  {id:13, name:'Langostinos Enteros',   cat:'mariscos',  unit:'kg',   min:6,  prov:'cooperativa', stock:10, locs:[{name:'Principal', qty:10}], hidden:false},
+  {id:23, name:'Medallón de Merluza',   cat:'medallones',unit:'kg',   min:8,  prov:'congelados',  stock:14, locs:[{name:'Freezer 2', qty:14}], hidden:false},
+  {id:28, name:'Merluza Entera',        cat:'enteros',   unit:'kg',   min:10, prov:'cooperativa', stock:18, locs:[{name:'Principal', qty:18}], hidden:false},
+  {id:37, name:'Langostino IQF',        cat:'congelados',unit:'kg',   min:10, prov:'congelados',  stock:25, locs:[{name:'Freezer Fondo', qty:25}], hidden:false},
+  {id:50, name:'Atún al Natural x170g', cat:'conservas', unit:'lata', min:24, prov:'importados',  stock:30, locs:[{name:'Estante Pared', qty:30}], hidden:false},
+];
+
+const SEED_PROVS = [
+  {id:'cooperativa', name:'Cooperativa Mar'},
+  {id:'congelados',  name:'Congelados del Sur'},
+  {id:'frescos',     name:'Frescos & Delivery'},
+  {id:'importados',  name:'Importados Premium'},
+  {id:'locales',     name:'Locales Río'},
+];
+
+const SEED_TASKS = [
+  { id: 1, text: 'Revisar temperatura de heladeras (< 4°C)', done: false },
+  { id: 2, text: 'Controlar nivel de hielo en vitrinas', done: false },
+  { id: 3, text: 'Limpiar y desinfectar balanzas', done: false },
+  { id: 4, text: 'Verificar stock de bolsas y papel', done: false }
+];
+
+/* ── STATE ── */
+let CATS=[], UNITS=[];
+let catalog=[], provs=[], history=[], audit=[], clients=[];
+let templateTasks = []; 
+let pedido = {prov:'', items:[]};
+let activeStockFilter = 'all'; 
+let search = '';
+let currentPage = 'stock';
+let openCats = {}; 
+let adminTab = 'catalogo';
+let adminCatalogSearch = ''; 
+let pedidoSearch = ''; 
+let rutina = { fecha: '', tareas: [] };
+let diasAlertaVenc = 3; 
+
+let calcItems = [];
+let calcSearch = ''; 
+let calcActiveCat = 'mariscos'; 
+let calcSelectedClient = null;
+let calcApplyDiscount = false;
+let cashDiscountPct = 10;
+let calcClientSearch = '';
+
+let businessName = 'Pescadería';
+let businessTag = 'Pro';
+let businessLogo = '';
+let appTheme = 'dark';
+
+let gsUrl = localStorage.getItem('pp2_gs_url') || '';
+let gsSyncInterval = null;
+let gsLastHash = '';
+
+function persist(){
+  try {
+    localStorage.setItem('pp2_cats', JSON.stringify(CATS));
+    localStorage.setItem('pp2_units', JSON.stringify(UNITS));
+    localStorage.setItem('pp2_cat',  JSON.stringify(catalog));
+    localStorage.setItem('pp2_prov', JSON.stringify(provs));
+    localStorage.setItem('pp2_hist', JSON.stringify(history));
+    localStorage.setItem('pp2_audit',JSON.stringify(audit.slice(0,150)));
+    localStorage.setItem('pp2_rutina',JSON.stringify(rutina));
+    localStorage.setItem('pp2_tasks_tpl', JSON.stringify(templateTasks));
+    localStorage.setItem('pp2_diasVenc', diasAlertaVenc);
+    localStorage.setItem('pp2_clients', JSON.stringify(clients));
+    localStorage.setItem('pp2_descPct', cashDiscountPct);
+    localStorage.setItem('pp2_bizName', businessName);
+    localStorage.setItem('pp2_bizTag', businessTag);
+    localStorage.setItem('pp2_bizLogo', businessLogo);
+    localStorage.setItem('pp2_theme', appTheme);
+  } catch(_){}
+}
+
+function restore(){
+  try {
+    CATS     = JSON.parse(localStorage.getItem('pp2_cats')) || SEED_CATS.map(x=>({...x}));
+    UNITS    = JSON.parse(localStorage.getItem('pp2_units')) || [...SEED_UNITS];
+    catalog  = JSON.parse(localStorage.getItem('pp2_cat'))  || SEED_CATALOG.map(x=>({...x}));
+    provs    = JSON.parse(localStorage.getItem('pp2_prov')) || SEED_PROVS.map(x=>({...x}));
+    history  = JSON.parse(localStorage.getItem('pp2_hist')) || [];
+    audit    = JSON.parse(localStorage.getItem('pp2_audit'))|| [];
+    rutina   = JSON.parse(localStorage.getItem('pp2_rutina'));
+    templateTasks = JSON.parse(localStorage.getItem('pp2_tasks_tpl')) || SEED_TASKS.map(x=>({...x}));
+    clients  = JSON.parse(localStorage.getItem('pp2_clients')) || [];
+    let savedDias = localStorage.getItem('pp2_diasVenc'); if (savedDias !== null) diasAlertaVenc = parseInt(savedDias);
+    let savedDesc = localStorage.getItem('pp2_descPct'); if (savedDesc !== null) cashDiscountPct = parseFloat(savedDesc);
+    let bName = localStorage.getItem('pp2_bizName'); if (bName !== null) businessName = bName;
+    let bTag = localStorage.getItem('pp2_bizTag'); if (bTag !== null) businessTag = bTag;
+    let bLogo = localStorage.getItem('pp2_bizLogo'); if (bLogo !== null) businessLogo = bLogo;
+    let th = localStorage.getItem('pp2_theme'); if (th !== null) appTheme = th;
+  } catch(_){
+    CATS=SEED_CATS.map(x=>({...x})); UNITS=[...SEED_UNITS]; catalog=SEED_CATALOG.map(x=>({...x})); provs=SEED_PROVS.map(x=>({...x})); templateTasks=SEED_TASKS.map(x=>({...x})); clients=[]; history=[]; audit=[];
+  }
+  
+  // Migración para multi-ubicaciones
+  catalog.forEach(p => {
+    if (!p.locs) {
+      p.locs = [{ name: p.loc || 'Principal', qty: p.stock || 0 }];
+      delete p.loc;
+    }
+  });
+  
+  if (CATS.length > 0 && !CATS.find(c => c.id === calcActiveCat)) { calcActiveCat = CATS[0].id; }
+  
+  const hoy = new Date().toLocaleDateString('es-AR');
+  if (!rutina || rutina.fecha !== hoy) {
+    rutina = { fecha: hoy, tareas: templateTasks.map(t => ({...t, done: false})) };
+    persist();
+  }
+}
+
+function log(action, detail=''){ audit.unshift({ts: new Date().toLocaleString('es-AR'), action, detail}); persist(); }
+
+function toast(msg, type=''){
+  const el = document.createElement('div');
+  el.className = 'toast' + (type ? ' '+type : '');
+  const ic = type==='ok'?'<i class="ph ph-check-circle"></i>':type==='err'?'<i class="ph ph-warning-circle"></i>':'<i class="ph ph-info"></i>';
+  el.innerHTML = `<span>${ic}</span>${msg}`;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{ el.style.animation='tOut .25s forwards'; setTimeout(()=>el.remove(),250); }, 2400);
+}
+
+function modal(title, bodyHtml, actions){
+  document.getElementById('mTitle').textContent   = title;
+  document.getElementById('mBody').innerHTML      = bodyHtml;
+  document.getElementById('mActions').innerHTML   = actions;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('show'); }
+
+function go(page, btn){
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  
+  if(btn) {
+    btn.classList.add('active');
+  } else {
+    const pages = ['stock', 'pedidos', 'calculadora', 'rutina', 'historial', 'admin'];
+    const idx = pages.indexOf(page);
+    const items = document.querySelectorAll('.nav-item');
+    if (idx !== -1 && items[idx]) items[idx].classList.add('active');
+  }
+
+  const main = document.getElementById('main');
+  const header = document.querySelector('header');
+  
+  if (page === 'calculadora') {
+    header.style.display = 'none';
+    main.style.padding = '0';      
+  } else {
+    header.style.display = '';     
+    main.style.padding = '';       
+  }
+  
+  main.classList.remove('fade-in');
+  void main.offsetWidth; 
+  main.classList.add('fade-in');
+  render(page);
+}
+
+function toggleCat(el, id) { el.parentElement.classList.toggle('open'); openCats[id] = el.parentElement.classList.contains('open'); }
+function provName(id){ return (provs.find(p=>p.id===id)||{name:id}).name; }
+function isCritical(p){ return p.stock <= p.min; }
+
+function checkVenc(dStr) {
+  if(!dStr) return 0;
+  const v = new Date(dStr + 'T12:00:00');
+  const now = new Date(); now.setHours(0,0,0,0);
+  const diff = Math.floor((v - now) / (1000 * 60 * 60 * 24));
+  if(diff < 0) return 2;
+  if(diff <= diasAlertaVenc) return 1; 
+  return 0;
+}
+function formatVenc(dStr) {
+  if(!dStr) return '';
+  const [y,m,d] = dStr.split('-');
+  return `${d}/${m}`;
+}
+function hasAlert(p) { return isCritical(p) || checkVenc(p.venc) > 0; }
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', appTheme);
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.className = appTheme === 'light' ? 'ph ph-moon' : 'ph ph-sun';
+  
+  const metaColor = document.querySelector('meta[name="theme-color"]');
+  if (metaColor) metaColor.setAttribute('content', appTheme === 'light' ? '#f3f4f6' : '#111214');
+}
+
+function toggleTheme() {
+  appTheme = appTheme === 'light' ? 'dark' : 'light';
+  persist(); 
+  applyTheme();
+}
+
+function getRenderCats() {
+  const validCatIds = CATS.map(c=>c.id);
+  const hasOrphans = catalog.some(p => !validCatIds.includes(p.cat));
+  if (hasOrphans) {
+    return [...CATS, { id: 'uncategorized', icon: '<i class="ph ph-warning-circle"></i>', name: '⚠️ Sin Categoría' }];
+  }
+  return CATS;
+}
+
+function render(page){
+  if(page==='stock') renderStock();
+  if(page==='pedidos') renderPedidos();
+  if(page==='calculadora') renderCalculadora();
+  if(page==='rutina') renderRutina();
+  if(page==='historial') renderHistorial();
+  if(page==='admin') renderAdmin();
+  
+  const crits = catalog.filter(hasAlert).length;
+  document.getElementById('dot-stock').classList.toggle('show', crits>0);
+  document.getElementById('dot-pedidos').classList.toggle('show', pedido.items.length>0);
+}
+
+function renderStock(updateListOnly = false){
+  const mainEl = document.getElementById('main');
+  const scrollPos = mainEl ? mainEl.scrollTop : 0;
+  const q = search.toLowerCase();
+  const total = catalog.length;
+  const lowStockCount = catalog.filter(isCritical).length;
+  const vencCount = catalog.filter(p => checkVenc(p.venc) > 0).length;
+  const ok = total - (catalog.filter(hasAlert).length);
+
+  let listHtml = '';
+  let any = false;
+  
+  const renderCats = getRenderCats();
+  const validCatIds = CATS.map(c=>c.id);
+
+  renderCats.forEach(cat => {
+    let items = catalog.filter(p => (cat.id === 'uncategorized' ? !validCatIds.includes(p.cat) : p.cat === cat.id));
+    items = items.filter(p => !p.hidden);
+    if(activeStockFilter === 'low') items = items.filter(isCritical);
+    if(activeStockFilter === 'venc') items = items.filter(p => checkVenc(p.venc) > 0);
+    if(activeStockFilter === 'ok') items = items.filter(p => !hasAlert(p));
+    
+    // Búsqueda en multi-ubicaciones
+    if(q) items = items.filter(p => p.name.toLowerCase().includes(q) || provName(p.prov).toLowerCase().includes(q) || (p.locs && p.locs.some(l => l.name.toLowerCase().includes(q))));
+    
+    if(!items.length) return;
+    any = true;
+    const crits = items.filter(hasAlert).length;
+    const openCls = (q || activeStockFilter !== 'all' || openCats[cat.id]) ? ' open' : '';
+    listHtml += `
+      <div class="cat-block${openCls}" id="cat-${cat.id}">
+        <div class="cat-head" onclick="toggleCat(this, '${cat.id}')">
+          <div class="cat-head-left">
+            <span>${cat.icon}</span>
+            <span class="cat-name">${cat.name}</span>
+            <span class="cat-count">${items.length}</span>
+            ${crits ? `<span class="cat-warn"><i class="ph ph-warning"></i> ${crits} alerta${crits>1?'s':''}</span>` : ''}
+          </div>
+          <span class="cat-arrow"><i class="ph ph-caret-down"></i></span>
+        </div>
+        <div class="cat-body">
+          ${items.map(p=>{
+            const vSt = checkVenc(p.venc);
+            let locsHtml = '';
+            if (p.locs && p.locs.length > 0) {
+               let locsText = p.locs.filter(l=>l.qty>0).map(l => `${l.name}: ${l.qty}${p.unit}`).join(' · ');
+               if (!locsText) locsText = p.locs.map(l=>l.name).join(', ') + ' (Sin stock)';
+               locsHtml = `<div style="display:flex; align-items:center; gap:4px; font-weight:600; color:var(--blue); background:rgba(96,165,250,0.1); padding:4px 8px; border-radius:4px; margin-top:6px; font-size:10px;"><i class="ph ph-map-pin"></i> ${locsText}</div>`;
+            }
+            
+            return `
+            <div class="prod-row">
+              <div class="prod-info">
+                <div class="prod-name">${p.name}</div>
+                <div class="prod-sub">
+                  <span>${p.unit}</span> · <span>mín ${p.min}</span>
+                  ${vSt > 0 ? `<span style="color:var(--${vSt===2?'red':'amber'});font-weight:700;"><i class="ph ph-warning-circle"></i> ${vSt===2?'Venció':'Vence'} ${formatVenc(p.venc)}</span>` : ''}
+                </div>
+                ${locsHtml}
+              </div>
+              <div class="stock-actions">
+                <button class="step-btn minus" onclick="stepStock(${p.id}, -1)"><i class="ph ph-minus"></i></button>
+                <span class="stock-pill clickable ${isCritical(p)?'sp-low':'sp-ok'}" onclick="editStockManual(${p.id})" title="Editar distribución">${p.stock} ${p.unit}</span>
+                <button class="step-btn plus" onclick="stepStock(${p.id}, 1)"><i class="ph ph-plus"></i></button>
+              </div>
+            </div>
+          `}).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  if(!any) listHtml += `<div class="empty"><div class="empty-icon"><i class="ph ph-magnifying-glass"></i></div><p>Sin resultados</p></div>`;
+  listHtml += `<div class="spacer"></div>`;
+
+  if(updateListOnly && document.getElementById('stock-list-container')) {
+    document.getElementById('stock-list-container').innerHTML = listHtml;
+    return;
+  }
+
+  let html = `
+    <div class="stat-row">
+      <div class="stat ${activeStockFilter==='all'?'active':''}" onclick="activeStockFilter='all';renderStock()">
+        <div class="stat-val b">${total}</div><div class="stat-lbl">Total</div>
+      </div>
+      <div class="stat ${activeStockFilter==='ok'?'active':''}" onclick="activeStockFilter='ok';renderStock()">
+        <div class="stat-val g">${ok}</div><div class="stat-lbl">OK</div>
+      </div>
+      <div class="stat ${activeStockFilter==='low'?'active':''}" onclick="activeStockFilter='low';renderStock()">
+        <div class="stat-val a">${lowStockCount}</div><div class="stat-lbl">Faltan</div>
+      </div>
+      <div class="stat ${activeStockFilter==='venc'?'active':''}" onclick="activeStockFilter='venc';renderStock()">
+        <div class="stat-val r">${vencCount}</div><div class="stat-lbl">Vencen</div>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
+      <input id="sq" type="text" placeholder="Buscar producto, proveedor o ubicación..." value="${search}" oninput="search=this.value;renderStock(true)">
+    </div>
+    
+    <div id="stock-list-container">
+      ${listHtml}
+    </div>
+  `;
+  mainEl.innerHTML = html;
+  mainEl.scrollTop = scrollPos;
+}
+
+function stepStock(id, delta) {
+  const p = catalog.find(x => x.id === id); if(!p) return;
+  if(p.stock + delta < 0) { toast('El stock no puede ser negativo', 'err'); return; }
+  
+  if (!p.locs || p.locs.length === 0) p.locs = [{name: 'Principal', qty: p.stock}];
+  
+  if (delta > 0) {
+    p.locs[0].qty += delta;
+  } else {
+    let rem = Math.abs(delta);
+    for(let i=0; i<p.locs.length; i++) {
+       if (p.locs[i].qty >= rem) {
+          p.locs[i].qty -= rem;
+          rem = 0;
+          break;
+       } else {
+          rem -= p.locs[i].qty;
+          p.locs[i].qty = 0;
+       }
+    }
+  }
+  
+  p.stock += delta;
+  log('Ajuste rápido', `${delta > 0 ? '+' : ''}${delta} ${p.unit} → ${p.name}`);
+  persist(); renderStock(true);
+  if(navigator.vibrate) navigator.vibrate(20);
+}
+
+function editStockManual(id){
+  const p = catalog.find(x=>x.id===id); if(!p) return;
+  let rowsHtml = '';
+  if(p.locs && p.locs.length) {
+      rowsHtml = p.locs.map((l) => `
+        <div class="loc-row" style="display:flex;gap:8px;margin-bottom:8px;">
+          <input type="text" class="fc loc-name" value="${l.name}" placeholder="Ubicación (Ej. Mostrador)">
+          <input type="number" class="fc loc-qty" value="${l.qty}" min="0" step="0.5" style="width:80px;text-align:center;" oninput="calcModalTotal()">
+          <button class="rm-btn" onclick="this.parentElement.remove(); calcModalTotal()"><i class="ph ph-trash"></i></button>
+        </div>
+      `).join('');
+  } else {
+      rowsHtml = `
+        <div class="loc-row" style="display:flex;gap:8px;margin-bottom:8px;">
+          <input type="text" class="fc loc-name" value="Principal" placeholder="Ubicación">
+          <input type="number" class="fc loc-qty" value="${p.stock}" min="0" step="0.5" style="width:80px;text-align:center;" oninput="calcModalTotal()">
+          <button class="rm-btn" onclick="this.parentElement.remove(); calcModalTotal()"><i class="ph ph-trash"></i></button>
+        </div>
+      `;
+  }
+
+  modal(p.name,
+    `<p style="font-size:12px; color:var(--t2); margin-bottom:12px; text-align:left;">Agrega ubicaciones y distribuye los kilos/unidades. El stock total se sumará automáticamente.</p>
+     <div id="modal-locs-container">${rowsHtml}</div>
+     <button class="btn btn-ghost btn-sm" style="margin-bottom:16px; width:100%; border: 1px dashed var(--line-hi);" onclick="addModalLocRow()"><i class="ph ph-plus"></i> Añadir ubicación</button>
+     <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-2); padding:10px; border-radius:var(--r-sm);">
+        <span style="font-size:12px; font-weight:600; color:var(--t2);">STOCK TOTAL:</span>
+        <span style="font-size:18px; font-weight:800; color:var(--accent);"><span id="modal-locs-total">${p.stock}</span> ${p.unit}</span>
+     </div>`,
+    `<button class="btn btn-primary" onclick="saveStockLocs(${id})"><i class="ph ph-floppy-disk"></i> Guardar Distribución</button>
+     <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`
+  );
+  
+  setTimeout(() => {
+    document.querySelectorAll('.loc-qty').forEach(el => {
+        el.removeEventListener('input', calcModalTotal);
+        el.addEventListener('input', calcModalTotal);
+    });
+  }, 50);
+}
+
+window.calcModalTotal = function() {
+  let total = 0;
+  document.querySelectorAll('.loc-qty').forEach(inpt => { total += parseFloat(inpt.value)||0; });
+  document.getElementById('modal-locs-total').textContent = total;
+};
+
+window.addModalLocRow = function() {
+  const container = document.getElementById('modal-locs-container');
+  container.insertAdjacentHTML('beforeend', `
+    <div class="loc-row" style="display:flex;gap:8px;margin-bottom:8px;">
+      <input type="text" class="fc loc-name" placeholder="Nueva Ubicación">
+      <input type="number" class="fc loc-qty" value="0" min="0" step="0.5" style="width:80px;text-align:center;" oninput="calcModalTotal()">
+      <button class="rm-btn" onclick="this.parentElement.remove(); calcModalTotal()"><i class="ph ph-trash"></i></button>
+    </div>
+  `);
+};
+
+function saveStockLocs(id) {
+   const p = catalog.find(x=>x.id===id); if(!p) return;
+   let newLocs = [];
+   let newTotal = 0;
+   document.querySelectorAll('.loc-row').forEach(row => {
+      let n = row.querySelector('.loc-name').value.trim() || 'Principal';
+      let q = parseFloat(row.querySelector('.loc-qty').value) || 0;
+      newLocs.push({name: n, qty: q});
+      newTotal += q;
+   });
+   if(newLocs.length === 0) newLocs.push({name: 'Principal', qty: 0});
+   
+   p.locs = newLocs;
+   p.stock = newTotal;
+   persist(); closeModal(); toast(`Distribución actualizada`,'ok'); 
+   renderStock(true);
+   if(currentPage === 'admin') renderAdmin(true);
+}
+
+function renderRutina() {
+  const total = rutina.tareas.length;
+  const hechas = rutina.tareas.filter(t => t.done).length;
+  const pct = total === 0 ? 0 : Math.round((hechas / total) * 100);
+  
+  let html = `
+    <div class="card fade-in">
+      <div class="card-title"><i class="ph ph-calendar-check"></i> Checklist Diario: ${rutina.fecha}</div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${pct}%"></div>
+      </div>
+      <p style="font-size: 11px; color: var(--t3); margin-bottom: 20px; text-align: right;">
+        Completado: <strong>${hechas} / ${total}</strong> (${pct}%)
+      </p>
+      
+      <div>
+        ${rutina.tareas.length === 0 ? 
+          `<p style="color:var(--t3); font-size:13px; text-align:center; padding: 20px 0;">No hay tareas en tu rutina. Ve a "Ajustes > Tareas" para crear una.</p>` 
+          : rutina.tareas.map(t => `
+          <div class="chk-row ${t.done ? 'done' : ''}" onclick="toggleTarea(${t.id})">
+            <div class="chk-box">${t.done ? '<i class="ph ph-check"></i>' : ''}</div>
+            <div class="chk-text">${t.text}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="spacer"></div>
+  `;
+  document.getElementById('main').innerHTML = html;
+}
+
+function toggleTarea(id) {
+  const t = rutina.tareas.find(x => x.id === id);
+  if(t) {
+    t.done = !t.done; persist(); renderRutina();
+    if(t.done && navigator.vibrate) navigator.vibrate([20, 50, 20]);
+  }
+}
+
+function renderPedidos(updateListOnly = false){
+  let provOpts = `<option value="">— Elegir proveedor destino —</option>` +
+    provs.map(p=>`<option value="${p.id}" ${pedido.prov===p.id?'selected':''}>${p.name}</option>`).join('');
+
+  let q = pedidoSearch.toLowerCase();
+  let itemsToShow = catalog.filter(p => !p.hidden);
+  if (q) itemsToShow = itemsToShow.filter(p => p.name.toLowerCase().includes(q) || provName(p.prov).toLowerCase().includes(q));
+
+  let prodListHtml = itemsToShow.map(p=>{
+    let inCart = pedido.items.find(i => i.id === p.id);
+    let qty = inCart ? inCart.qty : 0;
+    let stockColor = 'var(--accent)'; 
+    if (p.stock <= 0) stockColor = 'var(--red)'; else if (p.stock <= p.min) stockColor = 'var(--amber)'; 
+    return `
+      <div class="prod-row">
+        <div class="prod-info">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-sub">Stock actual: <strong style="color:${stockColor}">${p.stock} ${p.unit}</strong></div>
+        </div>
+        <div class="stock-actions">
+          ${qty > 0 ? `
+            <button class="step-btn minus" onclick="stepPedidoItem(${p.id}, -1)"><i class="ph ph-minus"></i></button>
+            <span class="stock-pill clickable" onclick="editPedidoManual(${p.id})" style="font-size:14px; min-width:36px; background:var(--accent-dim); color:var(--accent); border:1px solid var(--accent-border);" title="Tocar para editar">${qty}</span>
+          ` : ''}
+          <button class="step-btn plus" onclick="stepPedidoItem(${p.id}, 1)"><i class="ph ph-plus"></i></button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (!itemsToShow.length) prodListHtml = `<div class="empty" style="padding:24px"><div class="empty-icon"><i class="ph ph-magnifying-glass"></i></div><p>No se encontraron productos</p></div>`;
+
+  if (updateListOnly && document.getElementById('pedidos-list-container')) {
+    document.getElementById('pedidos-list-container').innerHTML = prodListHtml;
+    document.getElementById('pedidos-cart-summary').innerHTML = getCartSummaryHtml();
+    return;
+  }
+
+  document.getElementById('main').innerHTML = `
+    <div class="card">
+      <div class="card-title"><i class="ph ph-truck"></i> Generar Pedido para:</div>
+      <div class="fg" style="margin:0"><select class="fc" onchange="pedido.prov=this.value;renderPedidos()">${provOpts}</select></div>
+    </div>
+
+    ${pedido.prov ? `
+    <div class="search-bar" style="margin-bottom: 12px;">
+      <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
+      <input type="text" placeholder="Buscar producto (ej. merluza)..." value="${pedidoSearch}" oninput="pedidoSearch=this.value;renderPedidos(true)">
+    </div>
+    <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 120px;">
+      <div id="pedidos-list-container">${prodListHtml}</div>
+    </div>
+    <div id="pedidos-cart-summary">${getCartSummaryHtml()}</div>
+    ` : `
+    <div class="empty"><div class="empty-icon"><i class="ph ph-storefront"></i></div><p>Selecciona un proveedor arriba para empezar</p></div>
+    `}
+  `;
+}
+
+function getCartSummaryHtml() {
+  if(!pedido.items.length) return '';
+  return `
+    <div class="cart-summary fade-in">
+      <div style="font-size: 14px; font-weight: 600; display:flex; align-items:center; gap:6px;">
+        <i class="ph ph-shopping-cart" style="font-size:18px; color:var(--t2)"></i> <span style="color:var(--accent); font-size:16px">${pedido.items.length}</span> items
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="clearPedido()" style="width:auto; padding:8px 12px; border-color:var(--line);">Limpiar</button>
+        <button class="btn btn-primary btn-sm" onclick="confirmPedido()" style="width:auto; padding:8px 16px;"><i class="ph ph-check"></i> Confirmar</button>
+      </div>
+    </div>
+  `;
+}
+
+function stepPedidoItem(id, delta) {
+  let idx = pedido.items.findIndex(i => i.id === id);
+  if (idx !== -1) { pedido.items[idx].qty += delta; if (pedido.items[idx].qty <= 0) pedido.items.splice(idx, 1); }
+  else if (delta > 0) pedido.items.push({id, qty: delta});
+  renderPedidos(true); if(navigator.vibrate) navigator.vibrate(10);
+}
+
+function editPedidoManual(id) {
+  let inCart = pedido.items.find(i => i.id === id);
+  let currentQty = inCart ? inCart.qty : 0;
+  const p = catalog.find(x => x.id === id);
+  modal(p.name,
+    `<p>Ajustar cantidad a pedir (Ud: ${p.unit}):</p>
+     <div style="margin-top:16px"><input id="pq_val" type="number" class="fc" min="0" step="0.5" value="${currentQty}" style="text-align:center;font-size:20px;font-weight:700"></div>`,
+    `<button class="btn btn-primary" onclick="doEditPedidoManual(${id})"><i class="ph ph-floppy-disk"></i> Guardar cantidad</button>
+     <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`
+  );
+}
+function doEditPedidoManual(id) {
+  const qty = parseFloat(document.getElementById('pq_val').value);
+  if(isNaN(qty) || qty < 0) { toast('Cantidad inválida', 'err'); return; }
+  let idx = pedido.items.findIndex(i => i.id === id);
+  if (qty === 0) { if (idx !== -1) pedido.items.splice(idx, 1); }
+  else { if (idx !== -1) pedido.items[idx].qty = qty; else pedido.items.push({id, qty}); }
+  closeModal(); renderPedidos(true);
+}
+function clearPedido(){ modal('Limpiar pedido','<p>¿Querés vaciar la lista actual?</p>',`<button class="btn btn-danger" onclick="pedido.items=[];closeModal();renderPedidos()">Sí, limpiar</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`); }
+
+function confirmPedido(){
+  if(!pedido.items.length){ toast('El pedido está vacío','err'); return; }
+  const pn = provName(pedido.prov);
+  let htmlList = `<div style="max-height: 200px; overflow-y: auto; text-align: left; margin: 16px 0; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px; background:var(--bg-2)">`;
+  pedido.items.forEach(i => {
+    let p = catalog.find(x=>x.id===i.id);
+    if(p) htmlList += `<div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px; border-bottom:1px solid var(--line); padding-bottom:6px;"><span>${p.name}</span><strong style="color:var(--accent)">${i.qty} ${p.unit}</strong></div>`;
+  });
+  htmlList += `</div>`;
+  modal('Confirmar pedido',
+    `<p>Vas a guardar un pedido para <strong style="color:var(--accent)">${pn}</strong>.</p>
+     ${htmlList}
+     <p style="font-size:11px; color:var(--t3)"><i class="ph ph-info"></i> El stock de estos productos se incrementará automáticamente.</p>`,
+    `<button class="btn btn-primary" onclick="savePedido()"><i class="ph ph-check"></i> Confirmar y Guardar</button>
+     <button class="btn btn-secondary" onclick="closeModal()">Seguir editando</button>`);
+}
+
+function savePedido(){
+  const now = new Date();
+  const order = {
+    id: 'PED-' + now.getTime().toString(36).toUpperCase(),
+    fecha: now.toLocaleDateString('es-AR'), hora:  now.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'}),
+    prov:  pedido.prov, usuario: 'Admin',
+    items: pedido.items.map(i=>{ const p = catalog.find(x=>x.id===i.id)||{}; return {id:i.id, name:p.name, qty:i.qty, unit:p.unit}; })
+  };
+  pedido.items.forEach(i=>{ const p=catalog.find(x=>x.id===i.id); if(p) stepStock(p.id, i.qty); });
+  history.unshift(order); log('Pedido guardado', `${order.id} · ${order.items.length} ítems`);
+  persist(); pedido = {prov:'', items:[]}; closeModal(); toast(`Pedido guardado`,'ok'); renderPedidos();
+}
+
+function renderCalculadora(updateMode = 0) {
+  let subtotal = 0; let totalManual = 0;
+  const itemsHtml = calcItems.length ? calcItems.map((it, i) => {
+    const p = catalog.find(x => x.id === it.id) || {};
+    const qty = it.manualQty || 0; totalManual += qty;
+    const cost = (qty / 1000) * (p.price || 0); subtotal += cost;
+    return `
+      <div style="display: flex; align-items: center; padding: 10px 12px; background: var(--bg-2); border-radius: var(--r-sm); margin-bottom: 8px; border: 1px solid var(--line-hi); transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.name}</div>
+          <div style="font-size: 11px; color: var(--t3); margin-top: 2px;">$${(p.price||0).toLocaleString('es-AR')}/kg</div>
+        </div>
+        <div style="display: flex; align-items: center; background: var(--bg-1); border: 1px solid var(--line); border-radius: var(--r-xs); margin: 0 10px; overflow: hidden;">
+          <input type="number" value="${Math.round(qty)}" min="0" step="50" onchange="setCalcManualQty(${i}, this.value)" style="width: 54px; background: transparent; border: none; color: var(--accent); font-size: 14px; font-weight: 700; text-align: center; padding: 6px 2px; outline: none; margin:0;">
+          <div style="font-size: 10px; font-weight: 700; color: var(--t3); padding-right: 8px; user-select: none;">gr</div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; min-width: 65px;">
+          <div style="font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 4px;">$${cost.toLocaleString('es-AR', {maximumFractionDigits:0})}</div>
+          <button onclick="rmCalcItem(${i})" style="font-size: 9px; color: var(--red); display: flex; align-items: center; gap: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">
+            <i class="ph ph-trash" style="font-size:12px;"></i> Quitar
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('') : `<div class="empty" style="padding: 16px 0;"><div class="empty-icon" style="font-size:24px; margin-bottom:8px;"><i class="ph ph-cooking-pot"></i></div><p style="font-size:11px;">Agrega ingredientes desde el buscador</p></div>`;
+
+  let finalCost = subtotal; let discountVal = 0;
+  if (calcApplyDiscount && cashDiscountPct > 0) { discountVal = subtotal * (cashDiscountPct / 100); finalCost = subtotal - discountVal; }
+
+  const q = calcSearch.toLowerCase(); 
+  let catHtml = ''; let catPillsHtml = '';
+
+  const renderCard = (p) => `
+    <div onclick="addCalcItem(${p.id})" style="background:var(--bg-1); border:1px solid var(--line-hi); border-radius:var(--r-sm); padding:10px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; min-height:70px; box-shadow: var(--shadow-sm); transition: all 0.2s;" onmouseover="this.style.borderColor='var(--accent-border)'; this.style.background='var(--bg-2)';" onmouseout="this.style.borderColor='var(--line-hi)'; this.style.background='var(--bg-1)';" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
+      <div style="font-size:11px; font-weight:600; color:var(--t1); line-height:1.2; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${p.name}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+         <span style="font-size:10px; font-weight:500; color:var(--t3);">$${p.price||0}/kg</span>
+         <span style="color:var(--bg); background:var(--accent); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; box-shadow:0 2px 4px var(--accent-glow);"><i class="ph ph-plus"></i></span>
+      </div>
+    </div>
+  `;
+
+  const renderCats = getRenderCats();
+
+  if (q) {
+    let items = catalog.filter(p => p.name.toLowerCase().includes(q) && !p.hidden);
+    if (items.length) {
+      catHtml = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; align-content: start;">${items.map(renderCard).join('')}</div>`;
+    } else {
+      catHtml = `<div class="empty" style="padding:16px"><p style="font-size:11px;">No se encontraron resultados</p></div>`;
+    }
+  } else {
+    catPillsHtml = `<div class="pill-row" style="margin-bottom: 12px; padding-bottom: 4px; flex-wrap: wrap; overflow: visible; gap: 8px;">` + 
+      renderCats.map(c => `<button class="pill ${calcActiveCat === c.id ? 'active' : ''}" onclick="calcActiveCat='${c.id}'; renderCalculadora(1)" style="padding:6px 10px; font-size:11px;">${c.icon} <span style="margin-left:4px">${c.name}</span></button>`).join('') + `</div>`;
+      
+    const validCatIds = CATS.map(c=>c.id);
+    let items = catalog.filter(p => (calcActiveCat === 'uncategorized' ? !validCatIds.includes(p.cat) : p.cat === calcActiveCat) && !p.hidden);
+    if (items.length) {
+      catHtml = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 4px; align-content: start;">${items.map(renderCard).join('')}</div>`;
+    } else {
+      catHtml = `<div class="empty" style="padding:16px"><p style="font-size:11px;">Esta categoría está vacía</p></div>`;
+    }
+  }
+
+  if(updateMode === 1 && document.getElementById('calc-catalog-container')) { document.getElementById('calc-catalog-container').innerHTML = catPillsHtml + catHtml; return; }
+
+  let clientListHtml = '';
+  if (calcClientSearch) {
+     const cq = calcClientSearch.toLowerCase();
+     const filteredClients = clients.filter(c => c.name.toLowerCase().includes(cq) || c.lastName.toLowerCase().includes(cq) || c.dni.includes(cq));
+     if (filteredClients.length) {
+       clientListHtml = filteredClients.map(c => `
+         <div style="padding:8px 10px; border-bottom:1px solid var(--line); cursor:pointer; background:var(--bg-2); transition:background 0.2s;" onclick="selectCalcClient('${c.id}')" onmouseover="this.style.background='var(--bg-3)'" onmouseout="this.style.background='var(--bg-2)'">
+           <div style="font-weight:600; font-size:12px; color:var(--t1);">${c.name} ${c.lastName}</div>
+           <div style="font-size:10px; color:var(--t3); margin-top:2px;">DNI: ${c.dni} | Tel: ${c.phone}</div>
+         </div>
+       `).join('');
+     } else {
+       clientListHtml = `<div style="padding:12px; color:var(--t3); font-size:11px; text-align:center;">No hay resultados. <br><span style="color:var(--accent); cursor:pointer; font-weight:bold; margin-top:4px; display:inline-block;" onclick="openAddClientModal()"><i class="ph ph-plus"></i> Crear cliente</span></div>`;
+     }
+  }
+  if(updateMode === 2 && document.getElementById('calc-client-list')) { document.getElementById('calc-client-list').innerHTML = clientListHtml; return; }
+
+  document.getElementById('main').innerHTML = `
+    <div style="background: var(--bg-trans); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; margin: 0;">
+      <button onclick="go('stock')" style="width: 36px; height: 36px; border:1px solid var(--line-hi); background:var(--bg-2); display:grid; place-items:center; border-radius: var(--r-sm); color: var(--t1); cursor:pointer; transition:all 0.2s;" title="Volver al Stock"><i class="ph ph-arrow-left" style="font-size:18px;"></i></button>
+      <div style="font-size:15px; font-weight:700; color:var(--t1);"><i class="ph ph-calculator" style="color:var(--accent); margin-right:6px;"></i> Calculadora</div>
+      <div style="width: 36px;"></div>
+    </div>
+
+    <div style="padding: 16px;">
+      <div class="card" style="padding: 12px; margin-bottom: 12px;">
+        <div style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed var(--line);">
+           ${calcSelectedClient ? `
+             <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-2); padding:6px 10px; border-radius:var(--r-xs);">
+                <div style="font-size:12px; font-weight:600; color:var(--t1);"><i class="ph ph-user" style="color:var(--accent); margin-right:4px;"></i> ${calcSelectedClient.name} ${calcSelectedClient.lastName}</div>
+                <button class="rm-btn" style="width:24px;height:24px;font-size:12px;" onclick="calcSelectedClient=null; renderCalculadora()"><i class="ph ph-x"></i></button>
+             </div>
+          ` : `
+             <div class="search-bar" style="margin:0;">
+               <span class="search-icon" style="font-size:13px;"><i class="ph ph-user"></i></span>
+               <input type="text" placeholder="Asignar cliente (opcional)..." value="${calcClientSearch}" oninput="calcClientSearch=this.value; renderCalculadora(2)" style="padding: 8px 10px 8px 30px; font-size:12px; border:none; background:var(--bg-2); border-radius:var(--r-xs);">
+             </div>
+             <div id="calc-client-list" style="max-height: 140px; overflow-y: auto; background:var(--bg-1);">
+               ${clientListHtml}
+             </div>
+          `}
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; align-items:center; margin-bottom: 12px;">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-dim); padding:4px 8px; border-radius:var(--r-xs); border:1px solid var(--accent-border);">
+            Peso Obj: ${(totalManual/1000).toFixed(2)} kg
+          </div>
+        </div>
+
+        <div style="font-size:10px; font-weight:700; color:var(--t3); text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--line); padding-bottom:6px; margin-bottom:6px;">
+          Lista de Ingredientes
+        </div>
+        ${itemsHtml}
+
+        <div style="background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r-sm); padding:12px; margin-top:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:11px; color:var(--t3);">Ajuste las cantidades arriba ↑</span>
+            <div style="font-size:13px; color:var(--t2);">
+               Subtotal: <strong style="color:var(--t1)">$${subtotal.toLocaleString('es-AR', {maximumFractionDigits:0})}</strong>
+            </div>
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--line); padding-top:10px;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:11px; cursor:pointer; color:var(--t2); font-weight:500;">
+              <input type="checkbox" ${calcApplyDiscount ? 'checked' : ''} onchange="calcApplyDiscount=this.checked; renderCalculadora()" style="width:14px; height:14px; accent-color:var(--accent); margin:0;">
+              Desc. Efectivo:
+              <input type="number" value="${cashDiscountPct}" onchange="cashDiscountPct=parseFloat(this.value)||0; persist(); renderCalculadora()" style="width:38px; background:var(--bg-3); border:1px solid var(--line); color:var(--t1); border-radius:4px; text-align:center; padding:2px; font-size:11px;" onclick="event.preventDefault(); event.stopPropagation();"> %
+            </label>
+            <div style="font-size:20px; font-weight:800; color:var(--accent);">
+              $${finalCost.toLocaleString('es-AR', {maximumFractionDigits:0})}
+            </div>
+          </div>
+        </div>
+        
+        ${calcItems.length > 0 ? `
+          <button class="btn btn-primary" style="width:100%; margin-top:16px; padding:12px; font-size:13px;" onclick="openExportModal()">
+            <i class="ph ph-share-network"></i> Generar Documento
+          </button>
+        ` : ''}
+
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--line);">
+          <div style="font-size:10px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">
+            <i class="ph ph-plus-circle"></i> Catálogo Rápido
+          </div>
+          <div class="search-bar" style="margin-bottom: 12px;">
+            <span class="search-icon" style="font-size:14px;"><i class="ph ph-magnifying-glass"></i></span>
+            <input type="text" placeholder="Buscar ingrediente..." value="${calcSearch}" oninput="calcSearch=this.value; renderCalculadora(1)" style="padding: 8px 10px 8px 32px; font-size:12px; border-color:var(--line-hi);">
+          </div>
+          <div id="calc-catalog-container">
+            ${catPillsHtml}
+            ${catHtml}
+          </div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  `;
+}
+
+function selectCalcClient(id) { calcSelectedClient = clients.find(c => c.id === id); calcClientSearch = ''; renderCalculadora(); }
+function addCalcItem(id) { if(!id) return; if(calcItems.find(i => i.id === id)) { toast('Ya está en la lista', 'err'); return; } calcItems.push({id, manualQty: 100}); renderCalculadora(); toast('Agregado', 'ok'); }
+function rmCalcItem(idx) { calcItems.splice(idx, 1); renderCalculadora(); }
+function setCalcManualQty(idx, valStr) { const val = parseInt(valStr); calcItems[idx].manualQty = (isNaN(val) || val <= 0) ? 0 : val; renderCalculadora(); }
+
+function openExportModal() {
+  if (!calcItems.length) { toast('No hay ingredientes', 'err'); return; }
+  modal('Generar Documento', `
+      <p>¿Qué tipo de documento deseas generar?</p>
+      <div style="display:flex; gap:10px; margin: 16px 0;">
+         <button id="btn-doc-pres" class="btn btn-primary" onclick="setDocType('Presupuesto')" style="flex:1">Presupuesto</button>
+         <button id="btn-doc-fac" class="btn btn-secondary" onclick="setDocType('Factura')" style="flex:1">Factura</button>
+      </div>
+      <input type="hidden" id="doc-type-val" value="Presupuesto">
+  `, `
+      <button class="btn btn-secondary" style="margin-bottom:8px;" onclick="printDocument()"><i class="ph ph-printer"></i> Imprimir documento</button>
+      <button class="btn btn-secondary" style="background:#25D366; color:#fff; border:none;" onclick="sendWhatsApp()"><i class="ph ph-whatsapp-logo"></i> Enviar por WhatsApp</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+  `);
+}
+
+function setDocType(type) {
+  document.getElementById('doc-type-val').value = type;
+  if(type === 'Presupuesto') {
+      document.getElementById('btn-doc-pres').className = 'btn btn-primary';
+      document.getElementById('btn-doc-fac').className = 'btn btn-secondary';
+  } else {
+      document.getElementById('btn-doc-fac').className = 'btn btn-primary';
+      document.getElementById('btn-doc-pres').className = 'btn btn-secondary';
+  }
+}
+
+function sendWhatsApp() {
+  const type = document.getElementById('doc-type-val').value;
+  let subtotal = 0; let totalGramos = 0;
+  let text = `*${businessName} ${businessTag}*\n`;
+  text += `📄 *${type}*\n`;
+  if (calcSelectedClient) text += `👤 Cliente: ${calcSelectedClient.name} ${calcSelectedClient.lastName}\n`;
+  text += `----------------------\n`;
+  
+  calcItems.forEach(it => {
+      const p = catalog.find(x => x.id === it.id) || {};
+      const qty = it.manualQty || 0; totalGramos += qty;
+      const cost = (qty / 1000) * (p.price || 0); subtotal += cost;
+      text += `• ${p.name} (${Math.round(qty)}gr): $${cost.toLocaleString('es-AR', {maximumFractionDigits:0})}\n`;
+  });
+  
+  let finalCost = subtotal; text += `----------------------\n`;
+  text += `Subtotal: $${subtotal.toLocaleString('es-AR', {maximumFractionDigits:0})}\n`;
+  if (calcApplyDiscount && cashDiscountPct > 0) {
+      const discountVal = subtotal * (cashDiscountPct / 100); finalCost = subtotal - discountVal;
+      text += `Descuento (${cashDiscountPct}%): -$${discountVal.toLocaleString('es-AR', {maximumFractionDigits:0})}\n`;
+  }
+  text += `*TOTAL: $${finalCost.toLocaleString('es-AR', {maximumFractionDigits:0})}*\n`;
+  text += `Peso: ${(totalGramos/1000).toFixed(2)}kg\n\n¡Gracias por elegirnos! 🐟`;
+  
+  const encodedText = encodeURIComponent(text);
+  let phone = ''; if (calcSelectedClient && calcSelectedClient.phone) phone = calcSelectedClient.phone.replace(/[^0-9]/g, '');
+  let waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
+  window.open(waUrl, '_blank'); closeModal();
+}
+
+function printDocument() {
+  const type = document.getElementById('doc-type-val').value;
+  if (!calcItems.length) { toast('No hay ingredientes para imprimir', 'err'); return; }
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('es-AR') + ' ' + now.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+  let clientHtml = '';
+  if (calcSelectedClient) {
+    clientHtml = `<div class="p-box"><p style="font-weight:700; font-size:15px; margin-bottom:8px;">${calcSelectedClient.name} ${calcSelectedClient.lastName}</p><p><strong>DNI:</strong> ${calcSelectedClient.dni || '-'}</p><p><strong>Tel:</strong> ${calcSelectedClient.phone || '-'}</p><p><strong>Correo:</strong> ${calcSelectedClient.email || '-'}</p></div>`;
+  } else { clientHtml = `<div class="p-box"><p style="font-weight:700; font-size:15px; margin:0;">Consumidor Final</p></div>`; }
+
+  let subtotal = 0; let totalGramos = 0;
+  let trs = calcItems.map(it => {
+    const p = catalog.find(x => x.id === it.id) || {};
+    const qty = it.manualQty || 0; totalGramos += qty;
+    const cost = (qty / 1000) * (p.price || 0); subtotal += cost;
+    return `<tr><td>${p.name}</td><td>${Math.round(qty)} gr</td><td>$${(p.price||0).toLocaleString('es-AR')}</td><td style="text-align:right;">$${cost.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}</td></tr>`;
+  }).join('');
+
+  let discountHtml = ''; let finalTotal = subtotal;
+  if (calcApplyDiscount && cashDiscountPct > 0) {
+     const discount = subtotal * (cashDiscountPct / 100); finalTotal = subtotal - discount;
+     discountHtml = `<div class="p-tot-row" style="color:#ef4444;"><span>Descuento Efectivo (${cashDiscountPct}%)</span><span>-$${discount.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span></div>`;
+  }
+
+  const html = `
+    <div class="p-header">
+      <div><h2 class="p-logo">${businessName} <span style="font-size:14px; font-family:sans-serif; font-style:normal; color:#6b7280;">${businessTag}</span></h2></div>
+      <div><p class="p-title">${type}</p><p class="p-meta">Emitido: ${dateStr}</p></div>
+    </div>
+    ${clientHtml}
+    <div style="display:flex; justify-content:flex-end; margin-bottom: 16px; font-size: 14px; padding: 0 4px; color:#374151;">
+       <span><strong>Peso Estimado Total:</strong> ${(totalGramos/1000).toFixed(2)} kg</span>
+    </div>
+    <table class="p-table">
+      <thead><tr><th>Detalle del Ingrediente</th><th>Cantidad</th><th>Precio Unitario (Kg)</th><th style="text-align:right;">Importe</th></tr></thead>
+      <tbody>${trs}</tbody>
+    </table>
+    <div class="p-totals">
+      <div class="p-tot-row"><span>Subtotal</span><span>$${subtotal.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span></div>
+      ${discountHtml}
+      <div class="p-tot-row p-tot-final"><span>Total a Pagar</span><span>$${finalTotal.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span></div>
+    </div>
+    <div class="p-footer"><p>¡Gracias por elegir nuestra calidad! Este ${type.toLowerCase()} es a modo referencial y los valores pueden sufrir modificaciones.</p></div>
+  `;
+  document.getElementById('print-section').innerHTML = html; closeModal(); window.print();
+}
+
+function renderHistorial(){
+  if(!history.length){ document.getElementById('main').innerHTML = `<div class="empty"><div class="empty-icon"><i class="ph ph-scroll"></i></div><p>Sin pedidos registrados aún</p></div>`; return; }
+  document.getElementById('main').innerHTML = history.map(h=>`
+    <div class="h-card fade-in">
+      <div class="h-top">
+        <div><div class="h-id">${h.id}</div><div class="h-meta"><i class="ph ph-calendar-blank"></i> ${h.fecha} &nbsp;<i class="ph ph-clock"></i> ${h.hora} &nbsp;<i class="ph ph-user"></i> ${h.usuario}</div></div>
+        <div class="h-prov">${provName(h.prov)}</div>
+      </div>
+      <div class="h-items">${h.items.slice(0,3).map(i=>`${i.name}: ${i.qty} ${i.unit}`).join(' · ')}${h.items.length>3?` · <em style="color:var(--t3)">+${h.items.length-3} más</em>`:''}</div>
+      <div class="btn-row">
+        <button class="btn btn-secondary btn-sm" onclick="verPedido('${h.id}')"><i class="ph ph-eye"></i> Ver detalle</button>
+        <button class="btn btn-ghost btn-sm" onclick="reanudar('${h.id}')"><i class="ph ph-copy"></i> Repetir</button>
+      </div>
+    </div>
+  `).join('') + `<div class="spacer"></div>`;
+}
+function verPedido(id){
+  const h = history.find(x=>x.id===id); if(!h) return;
+  modal(h.id,
+    `<div style="text-align:left;font-size:12px;color:var(--t2);margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--line);"><i class="ph ph-calendar"></i> ${h.fecha} · <i class="ph ph-clock"></i> ${h.hora} · <i class="ph ph-storefront"></i> ${provName(h.prov)}</div>
+     <div style="max-height:280px;overflow-y:auto; padding-right:4px;">
+       ${h.items.map(i=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px"><span style="color:var(--t1)">${i.name}</span><span style="color:var(--accent);font-weight:700">${i.qty} ${i.unit}</span></div>`).join('')}
+     </div>`,
+    `<button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>`);
+}
+function reanudar(id){
+  const h = history.find(x=>x.id===id); if(!h) return;
+  pedido.prov  = h.prov; pedido.items = h.items.map(i=>({id:i.id, qty:i.qty}));
+  closeModal(); go('pedidos', document.querySelectorAll('.nav-item')[1]); toast('Pedido cargado como plantilla','ok');
+}
+
+function renderAdmin(updateListOnly = false){
+  const tabsHtml = `
+    <div class="pill-row" style="margin-bottom: 16px; flex-wrap: wrap; gap: 10px; overflow: visible;">
+      <button class="pill ${adminTab==='catalogo'?'active':''}" onclick="adminTab='catalogo';renderAdmin()"><i class="ph ph-list-dashes"></i> Catálogo</button>
+      <button class="pill ${adminTab==='categorias'?'active':''}" onclick="adminTab='categorias';renderAdmin()"><i class="ph ph-tag"></i> Atributos</button>
+      <button class="pill ${adminTab==='provs'?'active':''}" onclick="adminTab='provs';renderAdmin()"><i class="ph ph-truck"></i> Proveedores</button>
+      <button class="pill ${adminTab==='clientes'?'active':''}" onclick="adminTab='clientes';renderAdmin()"><i class="ph ph-users"></i> Clientes</button>
+      <button class="pill ${adminTab==='tareas'?'active':''}" onclick="adminTab='tareas';renderAdmin()"><i class="ph ph-check-square"></i> Tareas</button>
+      <button class="pill ${adminTab==='sistema'?'active':''}" onclick="adminTab='sistema';renderAdmin()"><i class="ph ph-faders"></i> Sistema</button>
+    </div>
+  `;
+  let contentHtml = '';
+
+  if (adminTab === 'catalogo') {
+    let tRows = ''; const q = adminCatalogSearch.toLowerCase(); 
+    const renderCats = getRenderCats();
+    const validCatIds = CATS.map(c=>c.id);
+
+    renderCats.forEach(cat => {
+      let items = catalog.filter(p => (cat.id === 'uncategorized' ? !validCatIds.includes(p.cat) : p.cat === cat.id));
+      if(q) items = items.filter(p => p.name.toLowerCase().includes(q) || provName(p.prov).toLowerCase().includes(q) || (p.locs && p.locs.some(l => l.name.toLowerCase().includes(q))));
+      if (!items.length) return; 
+      tRows += `<tr style="background:var(--bg-3)"><td colspan="8" style="padding:8px 12px; font-size:10px; font-weight:700; color:var(--accent); letter-spacing:1px; text-transform:uppercase;">${cat.icon} ${cat.name}</td></tr>`;
+      items.forEach(p => {
+        const isHidden = p.hidden;
+        tRows += `
+          <tr style="opacity: ${isHidden ? '0.5' : '1'}; transition: opacity 0.2s;">
+            <td><input class="tbl-in" type="text" dir="auto" value="${p.name}" onchange="updateP(${p.id},'name',this.value)"></td>
+            <td>
+              <select class="tbl-select" onchange="updateP(${p.id},'unit',this.value)" style="width:50px">
+                ${UNITS.map(u=>`<option value="${u}" ${u===p.unit?'selected':''}>${u}</option>`).join('')}
+              </select>
+            </td>
+            <td>
+              <div style="font-size:10px; color:var(--blue); cursor:pointer; background:rgba(96,165,250,0.1); padding:6px; border-radius:4px; text-align:center; font-weight:600; min-width:80px;" onclick="editStockManual(${p.id})" title="Editar distribucion">
+                ${p.locs ? p.locs.map(l=>`${l.name} (${l.qty})`).join('<br>') || '+ Ubicación' : '+ Ubicación'}
+              </div>
+            </td>
+            <td><input class="tbl-in" type="number" value="${p.min}" style="width:40px" onchange="updateP(${p.id},'min',+this.value)"></td>
+            <td><input class="tbl-in" type="number" value="${p.price||0}" style="width:50px" onchange="updateP(${p.id},'price',+this.value)"></td>
+            <td><select class="tbl-select" onchange="updateP(${p.id},'prov',this.value)" style="width:85px">${provs.map(pr=>`<option value="${pr.id}" ${pr.id===p.prov?'selected':''}>${pr.name}</option>`).join('')}</select></td>
+            <td><input class="tbl-in" type="date" value="${p.venc||''}" onchange="updateP(${p.id},'venc',this.value)" style="width:110px;font-size:11px;"></td>
+            <td style="text-align:right; display:flex; gap:4px; justify-content:flex-end; align-items:center;">
+              <button class="rm-btn" style="width:24px;height:24px;font-size:12px; background:transparent; border:1px solid var(--line-hi); color:var(--t2);" onclick="toggleVisibility(${p.id})" title="${isHidden ? 'Mostrar en catálogo' : 'Ocultar del catálogo'}"><i class="ph ${isHidden ? 'ph-eye-slash' : 'ph-eye'}"></i></button>
+              <button class="rm-btn" style="width:24px;height:24px;font-size:12px;" onclick="delProduct(${p.id})"><i class="ph ph-trash"></i></button>
+            </td>
+          </tr>`;
+      });
+    });
+    const emptyMsg = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--t3)"><i class="ph ph-magnifying-glass" style="font-size:24px; margin-bottom:8px; display:block;"></i> No se encontraron productos</td></tr>';
+    if (updateListOnly && document.getElementById('admin-catalog-tbody')) { document.getElementById('admin-catalog-tbody').innerHTML = tRows || emptyMsg; return; }
+
+    contentHtml = `
+      <div class="search-bar" style="margin-bottom: 12px;">
+        <span class="search-icon"><i class="ph ph-magnifying-glass"></i></span>
+        <input type="text" placeholder="Buscar producto o ubicación..." dir="auto" value="${adminCatalogSearch}" oninput="adminCatalogSearch=this.value;renderAdmin(true)">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <button class="btn btn-secondary btn-sm" style="width:auto; padding:8px 12px;" onclick="openAddProductModal()"><i class="ph ph-plus"></i> Nuevo Producto</button>
+        <button class="btn btn-primary btn-sm" style="width:auto; padding:8px 14px;" onclick="saveTable()"><i class="ph ph-floppy-disk"></i> Guardar Cambios</button>
+      </div>
+      <div class="tbl-wrap" style="max-height: 55vh;">
+        <table>
+          <thead><tr><th>Producto</th><th>Ud.</th><th>Ubicaciones & Stock 📍</th><th>Mín</th><th>Precio</th><th>Prov.</th><th>Vencimiento</th><th></th></tr></thead>
+          <tbody id="admin-catalog-tbody">${tRows || emptyMsg}</tbody>
+        </table>
+      </div>
+    `;
+
+  } else if (adminTab === 'categorias') {
+      const catRows = CATS.map(c=>`
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px; color:var(--accent);">${c.icon}</span>
+            <span style="font-size:13px; font-weight:500;">${c.name}</span>
+          </div>
+          <button class="rm-btn" style="width:24px; height:24px; font-size:11px;" onclick="delCat('${c.id}')"><i class="ph ph-trash"></i></button>
+        </div>`).join('');
+
+      const unitRows = UNITS.map(u=>`
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line);">
+          <span style="font-size:13px; font-weight:500;">${u}</span>
+          <button class="rm-btn" style="width:24px; height:24px; font-size:11px;" onclick="delUnit('${u}')"><i class="ph ph-trash"></i></button>
+        </div>`).join('');
+
+      contentHtml = `
+        <div style="display:grid; grid-template-columns: 1fr; gap:12px;">
+          <div class="card fade-in" style="margin:0; padding:14px;">
+            <div class="card-title" style="margin-bottom:10px;font-size:13px;"><i class="ph ph-tag"></i> Categorías del Catálogo</div>
+            <div style="display:flex; gap:6px; margin-bottom:12px;">
+              <select class="fc" id="ncat_icon" style="width:65px; padding:8px 4px; font-size:16px; text-align:center;">
+                <option value='<i class="ph ph-tag"></i>'>🏷️</option>
+                <option value='<i class="ph ph-fish-simple"></i>'>🐟</option>
+                <option value='<i class="ph ph-anchor"></i>'>⚓</option>
+                <option value='<i class="ph ph-snowflake"></i>'>❄️</option>
+                <option value='<i class="ph ph-hamburger"></i>'>🍔</option>
+                <option value='<i class="ph ph-knife"></i>'>🔪</option>
+                <option value='<i class="ph ph-fire"></i>'>🔥</option>
+                <option value='<i class="ph ph-archive"></i>'>🥫</option>
+                <option value='<i class="ph ph-package"></i>'>📦</option>
+                <option value='<i class="ph ph-drop"></i>'>💧</option>
+                <option value='<i class="ph ph-plant"></i>'>🌿</option>
+                <option value='<i class="ph ph-star"></i>'>⭐</option>
+              </select>
+              <input type="text" class="fc" id="ncat_name" placeholder="Nueva categoría..." dir="auto" style="flex:1; padding:8px 12px; font-size:13px;" onkeydown="if(event.key==='Enter') addCat()">
+              <button class="btn btn-primary btn-sm" style="width:auto; padding:8px 12px;" onclick="addCat()">Agregar</button>
+            </div>
+            <div id="catList" style="max-height: 200px; overflow-y:auto; padding-right:4px;">${catRows || '<div style="font-size:12px;color:var(--t3);text-align:center;padding:10px 0;">Sin categorías</div>'}</div>
+          </div>
+
+          <div class="card fade-in" style="margin:0; padding:14px;">
+            <div class="card-title" style="margin-bottom:10px;font-size:13px;"><i class="ph ph-scales"></i> Unidades de Medida</div>
+            <div style="display:flex; gap:6px; margin-bottom:12px;">
+              <input type="text" class="fc" id="nunit_val" placeholder="Nueva unidad (ej. docena)..." dir="auto" style="flex:1; padding:8px 12px; font-size:13px;" onkeydown="if(event.key==='Enter') addUnit()">
+              <button class="btn btn-primary btn-sm" style="width:auto; padding:8px 12px;" onclick="addUnit()">Agregar</button>
+            </div>
+            <div id="unitList" style="max-height: 150px; overflow-y:auto; padding-right:4px;">${unitRows || '<div style="font-size:12px;color:var(--t3);text-align:center;padding:10px 0;">Sin unidades</div>'}</div>
+          </div>
+        </div>
+      `;
+
+  } else if (adminTab === 'provs') {
+    const provRows = provs.map(p=>`
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);">
+        <span style="font-size:14px; font-weight:500;">${p.name}</span>
+        <button class="rm-btn" onclick="delProv('${p.id}')"><i class="ph ph-trash"></i></button>
+      </div>`).join('');
+    contentHtml = `
+      <div class="card fade-in">
+        <div class="card-title"><i class="ph ph-truck"></i> Directorio de Proveedores</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <input type="text" class="fc" id="np" placeholder="Nombre del proveedor..." dir="auto" style="flex:1;" onkeydown="if(event.key==='Enter') addProv()">
+          <button class="btn btn-primary btn-sm" style="width:auto; padding:10px 16px;" onclick="addProv()">Agregar</button>
+        </div>
+        <div class="div" style="margin:16px 0;"></div>
+        <div id="provList" style="max-height: 350px; overflow-y:auto; padding-right:4px;">${provRows || '<div style="font-size:13px;color:var(--t3);text-align:center;padding:20px 0;">Sin proveedores</div>'}</div>
+      </div>
+    `;
+
+  } else if (adminTab === 'clientes') {
+    const cliRows = clients.map(c=>`
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);">
+        <div>
+          <div style="font-size:14px; font-weight:600; color:var(--t1); margin-bottom:2px;">${c.name} ${c.lastName}</div>
+          <div style="font-size:12px; color:var(--t3);">DNI: ${c.dni} | Tel: ${c.phone}</div>
+        </div>
+        <button class="rm-btn" onclick="delClient('${c.id}')"><i class="ph ph-trash"></i></button>
+      </div>`).join('');
+    contentHtml = `
+      <div class="card fade-in">
+        <div class="card-title"><i class="ph ph-users"></i> Directorio de Clientes</div>
+        <button class="btn btn-primary" style="margin-bottom:16px;" onclick="openAddClientModal()"><i class="ph ph-user-plus"></i> Añadir Nuevo Cliente</button>
+        <div class="div" style="margin:16px 0;"></div>
+        <div id="clientList" style="max-height:350px; overflow-y:auto; padding-right:4px;">${cliRows || '<div style="font-size:13px;color:var(--t3);text-align:center;padding:20px 0;">Sin clientes registrados</div>'}</div>
+      </div>
+    `;
+
+  } else if (adminTab === 'tareas') {
+    const taskRows = templateTasks.map(t=>`
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line);">
+        <span style="font-size:14px; font-weight:500; line-height:1.4;">${t.text}</span>
+        <button class="rm-btn" style="flex-shrink:0; margin-left:12px;" onclick="delTaskTpl(${t.id})"><i class="ph ph-trash"></i></button>
+      </div>`).join('');
+    contentHtml = `
+      <div class="card fade-in">
+        <div class="card-title"><i class="ph ph-list-checks"></i> Plantilla de Rutina Diaria</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <input type="text" class="fc" id="nt" placeholder="Describir nueva tarea..." dir="auto" style="flex:1;" onkeydown="if(event.key==='Enter') addTaskTpl()">
+          <button class="btn btn-primary btn-sm" style="width:auto; padding:10px 16px;" onclick="addTaskTpl()">Agregar</button>
+        </div>
+        <div class="div" style="margin:16px 0;"></div>
+        <div id="taskList" style="max-height: 350px; overflow-y:auto; padding-right:4px;">${taskRows || '<div style="font-size:13px;color:var(--t3);text-align:center;padding:20px 0;">Sin tareas configuradas</div>'}</div>
+      </div>
+    `;
+
+  } else if (adminTab === 'sistema') {
+    const logHtml = audit.slice(0,25).map(e=>`
+      <div style="padding:10px 0; border-bottom:1px solid var(--line);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="font-size:12px; color:var(--t1); font-weight:600;">${e.action}</div>
+          <div style="font-size:10px; color:var(--t3);"><i class="ph ph-clock"></i> ${e.ts}</div>
+        </div>
+        ${e.detail?`<div style="font-size:11px; color:var(--t2); line-height:1.4;">${e.detail}</div>`:''}
+      </div>`).join('') || '<p style="color:var(--t3);font-size:12px;padding:12px 0;text-align:center;">Sin registros</p>';
+
+    contentHtml = `
+      <div class="card fade-in" style="margin-bottom:12px;">
+        <div class="card-title"><i class="ph ph-storefront"></i> Datos del Negocio</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div><label class="fl">Nombre Principal</label><input type="text" class="fc" id="sys_biz_name" dir="auto" value="${businessName}"></div>
+          <div><label class="fl">Etiqueta (Tag)</label><input type="text" class="fc" id="sys_biz_tag" dir="auto" value="${businessTag}"></div>
+        </div>
+        <div class="fg" style="margin-bottom:16px;">
+          <label class="fl">URL del Logo (Opcional)</label>
+          <input type="text" class="fc" id="sys_biz_logo" dir="auto" value="${businessLogo}" placeholder="https://...">
+        </div>
+        <button class="btn btn-primary" onclick="saveBusinessData()"><i class="ph ph-floppy-disk"></i> Guardar Datos del Negocio</button>
+      </div>
+
+      <div class="card fade-in" style="margin-bottom:12px;">
+        <div class="card-title"><i class="ph ph-sliders"></i> Preferencias y Alertas</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:var(--bg-2); padding:12px 16px; border-radius:var(--r-sm); border:1px solid var(--line);">
+          <div style="font-size:13px; font-weight:500; color:var(--t1);">Días alerta vencimiento:</div>
+          <div style="display:flex; gap:8px;">
+            <input type="number" class="fc" id="sys_dias_venc" value="${diasAlertaVenc}" min="1" max="90" style="width:60px; text-align:center; font-weight:700;">
+            <button class="btn btn-primary btn-sm" style="width:auto; padding:0 12px;" onclick="saveDiasVenc()"><i class="ph ph-check"></i></button>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-2); padding:12px 16px; border-radius:var(--r-sm); border:1px solid var(--line);">
+          <div style="font-size:13px; font-weight:500; color:var(--t1);">Descuento Efectivo (%):</div>
+          <div style="display:flex; gap:8px;">
+            <input type="number" class="fc" id="sys_desc_pct" value="${cashDiscountPct}" min="0" max="100" style="width:60px; text-align:center; font-weight:700;">
+            <button class="btn btn-primary btn-sm" style="width:auto; padding:0 12px;" onclick="saveDescPct()"><i class="ph ph-check"></i></button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card fade-in" style="margin-bottom:12px;">
+        <div class="card-title"><i class="ph ph-cloud-arrow-up"></i> Sincronización con Google Sheets</div>
+        <div class="fg" style="margin-bottom:10px;">
+          <label class="fl">URL del Apps Script</label>
+          <input type="text" class="fc" id="sys_gs_url" value="${gsUrl}" placeholder="https://script.google.com/macros/s/..." style="font-size:11px;">
+        </div>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <button class="btn btn-secondary btn-sm" style="flex:1;" onclick="saveGsUrl()"><i class="ph ph-floppy-disk"></i> Guardar URL</button>
+          <button class="btn btn-primary btn-sm" style="flex:1;" onclick="gsPush()"><i class="ph ph-cloud-arrow-up"></i> Subir ahora</button>
+        </div>
+        <div style="font-size:11px; color:var(--t3); display:flex; align-items:center; gap:6px;">
+          <i class="ph ph-info"></i> La app recibe cambios del jefe automáticamente cada 60 seg.
+          <span id="gs-status" style="margin-left:auto; font-weight:700;"></span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
+        <div class="card fade-in" style="margin:0;">
+          <div class="card-title"><i class="ph ph-database"></i> Respaldo (Local)</div>
+          <button class="btn btn-secondary" style="margin-bottom:10px;" onclick="exportData()"><i class="ph ph-download-simple"></i> Exportar Datos</button>
+          <label class="btn btn-ghost" style="margin:0; cursor:pointer; text-align:center; display:block;">
+            <i class="ph ph-upload-simple"></i> Importar Datos
+            <input type="file" accept=".json" style="display:none;" onchange="importData(event)">
+          </label>
+        </div>
+        <div class="card fade-in" style="margin:0; display:flex; flex-direction:column;">
+          <div class="card-title"><i class="ph ph-list-bullets"></i> Últimos Movimientos</div>
+          <div style="flex:1; max-height:115px; overflow-y:auto; padding-right:4px;">${logHtml}</div>
+        </div>
+      </div>
+    `;
+  }
+  document.getElementById('main').innerHTML = tabsHtml + contentHtml + `<div class="spacer"></div>`;
+}
+
+
+/* ══════════════════════════════════════════
+   SINCRONIZACIÓN BIDIRECCIONAL GOOGLE SHEETS
+   ══════════════════════════════════════════ */
+
+function saveGsUrl() {
+  const url = (document.getElementById('sys_gs_url').value || '').trim();
+  gsUrl = url;
+  localStorage.setItem('pp2_gs_url', url);
+  toast('URL guardada', 'ok');
+  if (url) gsStartPull();
+}
+
+// Genera un hash simple del catálogo para detectar cambios
+function catalogHash() {
+  return catalog.map(p => `${p.id}:${p.stock}:${p.price}:${p.venc}`).join('|');
+}
+
+// ── PUSH: app → Sheets ──
+async function gsPush() {
+  if (!gsUrl) return;
+  const rows = [];
+  catalog.forEach(p => {
+    const cat = CATS.find(c => c.id === p.cat);
+    const prov = provs.find(x => x.id === p.prov);
+    const locsStr = p.locs ? p.locs.map(l => `${l.name}: ${l.qty} ${p.unit}`).join(' · ') : '';
+    rows.push({
+      id:       p.id,
+      nombre:   p.name,
+      categoria: cat ? cat.name : p.cat,
+      proveedor: prov ? prov.name : p.prov,
+      precio:   p.price || 0,
+      unidad:   p.unit,
+      stock:    p.stock,
+      minimo:   p.min,
+      vencimiento: p.venc || '',
+      ubicaciones: locsStr
+    });
+  });
+  try {
+    await fetch(gsUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'push', rows })
+    });
+    gsLastHash = catalogHash();
+    gsSetStatus('✓ Sincronizado', 'var(--accent)');
+    log('Sheets', 'Stock subido a Google Sheets');
+  } catch(e) {
+    gsSetStatus('Sin conexión', 'var(--red)');
+  }
+}
+
+// ── PULL: Sheets → app ──
+async function gsPull() {
+  if (!gsUrl) return;
+  try {
+    const res = await fetch(gsUrl + '?action=pull', { cache: 'no-store' });
+    const data = await res.json();
+    if (!data.rows || !data.rows.length) return;
+
+    let cambios = 0;
+    data.rows.forEach(row => {
+      const p = catalog.find(x => String(x.id) === String(row.id));
+      if (!p) return;
+      const newPrice = parseFloat(row.precio) || 0;
+      const newStock = parseFloat(row.stock) || 0;
+      const newVenc  = (row.vencimiento || '').trim();
+      if (p.price !== newPrice || p.stock !== newStock || p.venc !== newVenc) {
+        p.price = newPrice;
+        p.stock = newStock;
+        p.venc  = newVenc;
+        // Redistribuir stock en la primera ubicación si hay diferencia
+        if (p.locs && p.locs.length === 1) p.locs[0].qty = newStock;
+        cambios++;
+      }
+    });
+
+    if (cambios > 0) {
+      persist();
+      if (currentPage === 'stock') renderStock();
+      toast(`📥 ${cambios} producto${cambios > 1 ? 's' : ''} actualizado${cambios > 1 ? 's' : ''} por tu jefe`, 'ok');
+      log('Sheets', `Pull: ${cambios} cambio(s) recibido(s)`);
+      gsLastHash = catalogHash();
+    }
+    gsSetStatus('✓ Activo', 'var(--accent)');
+  } catch(e) {
+    gsSetStatus('Sin conexión', 'var(--red)');
+  }
+}
+
+function gsSetStatus(msg, color) {
+  const el = document.getElementById('gs-status');
+  if (el) { el.textContent = msg; el.style.color = color; }
+}
+
+function gsStartPull() {
+  if (gsSyncInterval) clearInterval(gsSyncInterval);
+  if (!gsUrl) return;
+  gsSyncInterval = setInterval(gsPull, 60000);
+  gsPull(); // primer pull inmediato
+}
+
+function saveTable(){ log('Catálogo', `Guardado completo`); persist(); toast('Catálogo guardado','ok'); renderStock(); gsPush(); }
+
+function saveDiasVenc() { const val = parseInt(document.getElementById('sys_dias_venc').value); if(isNaN(val) || val < 1) { toast('Inválido', 'err'); return; } diasAlertaVenc = val; persist(); log('Ajustes', `Alerta vencimiento: ${val} días`); toast('Guardado', 'ok'); renderAdmin(); }
+function saveDescPct() { const val = parseFloat(document.getElementById('sys_desc_pct').value); if(isNaN(val) || val < 0) { toast('Inválido', 'err'); return; } cashDiscountPct = val; persist(); log('Ajustes', `Descuento: ${val}%`); toast('Guardado', 'ok'); renderAdmin(); }
+function saveBusinessData() { businessName = (document.getElementById('sys_biz_name').value || '').trim() || 'Pescadería'; businessTag = (document.getElementById('sys_biz_tag').value || '').trim(); businessLogo = (document.getElementById('sys_biz_logo').value || '').trim(); persist(); updateBranding(); log('Ajustes', 'Branding actualizado'); toast('Datos guardados', 'ok'); }
+
+function updateBranding() {
+  document.getElementById('biz-name').textContent = businessName;
+  document.getElementById('biz-tag').textContent = businessTag;
+  document.getElementById('biz-tag').style.display = businessTag ? 'inline' : 'none';
+  document.title = businessName + (businessTag ? ' ' + businessTag : '');
+  const logoEl = document.getElementById('biz-logo');
+  if (businessLogo) { logoEl.src = businessLogo; logoEl.style.display = 'inline-block'; } else { logoEl.style.display = 'none'; }
+}
+
+function addCat() {
+  const name = (document.getElementById('ncat_name').value||'').trim();
+  const icon = document.getElementById('ncat_icon').value;
+  if(!name){ toast('Escribí el nombre','err'); return; }
+  const id = name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  if(CATS.find(c=>c.id===id)){ toast('Ya existe','err'); return; }
+  CATS.push({id, name, icon});
+  log('Categoría añadida', name);
+  persist(); toast('Añadida','ok'); renderAdmin();
+}
+function delCat(id) {
+  const c = CATS.find(x=>x.id===id);
+  modal('Eliminar categoría',
+    `<p>¿Eliminar la categoría <strong>${c?.name}</strong>?</p><p style="font-size:11px;color:var(--t3);margin-top:8px;"><i class="ph ph-info"></i> Los productos dentro de esta categoría se moverán a "Sin Categoría".</p>`,
+    `<button class="btn btn-danger" onclick="doDelCat('${id}')"><i class="ph ph-trash"></i> Eliminar</button>
+     <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`);
+}
+function doDelCat(id) {
+  CATS = CATS.filter(x=>x.id!==id);
+  persist(); closeModal(); toast('Eliminada'); renderAdmin();
+}
+
+function addUnit() {
+  const val = (document.getElementById('nunit_val').value||'').trim().toLowerCase();
+  if(!val){ toast('Escribí la unidad','err'); return; }
+  if(UNITS.includes(val)){ toast('Ya existe','err'); return; }
+  UNITS.push(val);
+  log('Unidad añadida', val);
+  persist(); toast('Añadida','ok'); renderAdmin();
+}
+function delUnit(val) {
+  modal('Eliminar unidad',
+    `<p>¿Eliminar la unidad de medida <strong>${val}</strong>?</p>`,
+    `<button class="btn btn-danger" onclick="doDelUnit('${val}')"><i class="ph ph-trash"></i> Eliminar</button>
+     <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`);
+}
+function doDelUnit(val) {
+  UNITS = UNITS.filter(x=>x!==val);
+  persist(); closeModal(); toast('Eliminada'); renderAdmin();
+}
+
+function openAddClientModal() {
+  modal('Añadir Cliente', `
+    <div class="fg"><input type="text" class="fc" id="nc_name" dir="auto" placeholder="Nombre *"></div>
+    <div class="fg"><input type="text" class="fc" id="nc_last" dir="auto" placeholder="Apellido"></div>
+    <div class="fg"><input type="text" class="fc" id="nc_dni" dir="auto" placeholder="DNI (Opcional)"></div>
+    <div class="fg"><input type="tel" class="fc" id="nc_phone" dir="auto" placeholder="Teléfono (Opcional)"></div>
+    <div class="fg"><input type="email" class="fc" id="nc_email" dir="auto" placeholder="Correo (Opcional)"></div>
+  `, `<button class="btn btn-primary" onclick="addClient()"><i class="ph ph-floppy-disk"></i> Guardar Cliente</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`);
+}
+function addClient() {
+  const name = (document.getElementById('nc_name').value||'').trim(); const lastName = (document.getElementById('nc_last').value||'').trim(); const dni = (document.getElementById('nc_dni').value||'').trim(); const phone = (document.getElementById('nc_phone').value||'').trim(); const email = (document.getElementById('nc_email').value||'').trim();
+  if(!name) { toast('El nombre es obligatorio', 'err'); return; }
+  const id = 'CLI-' + Date.now(); clients.unshift({ id, name, lastName, dni, phone, email }); log('Cliente', `Añadido: ${name}`); persist(); closeModal(); toast('Agregado', 'ok');
+  if (currentPage === 'admin') renderAdmin(); if (currentPage === 'calculadora') { calcClientSearch = name; renderCalculadora(2); }
+}
+function delClient(id) { const c = clients.find(x=>x.id===id); modal('Eliminar cliente', `<p>¿Eliminar a <strong>${c?.name} ${c?.lastName}</strong>?</p>`, `<button class="btn btn-danger" onclick="doDelClient('${id}')"><i class="ph ph-trash"></i> Eliminar</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`); }
+function doDelClient(id) { clients = clients.filter(x=>x.id!==id); if(calcSelectedClient && calcSelectedClient.id === id) calcSelectedClient = null; persist(); closeModal(); toast('Eliminado'); renderAdmin(); }
+
+function openAddProductModal() {
+  modal('Añadir Producto', `
+    <div class="fg"><input type="text" class="fc" id="np_name" dir="auto" placeholder="Nombre *"></div>
+    <div class="fg"><input type="text" class="fc" id="np_loc" dir="auto" placeholder="Ubicación inicial (Ej: Mostrador)"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="fg"><select class="fc" id="np_cat"><option value="">— Categoría —</option>${CATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></div>
+      <div class="fg"><select class="fc" id="np_prov"><option value="">— Proveedor —</option>${provs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
+      <div class="fg">
+        <select class="fc" id="np_unit">
+          <option value="">— Unidad —</option>
+          ${UNITS.map(u=>`<option value="${u}">${u}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fg"><input type="number" class="fc" id="np_min" placeholder="Mínimo" min="0"></div>
+      <div class="fg" style="grid-column: span 2;"><input type="number" class="fc" id="np_price" placeholder="Precio ($)" min="0" step="0.01"></div>
+    </div>
+  `, `<button class="btn btn-primary" onclick="addProduct()"><i class="ph ph-floppy-disk"></i> Guardar Producto</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`);
+}
+
+function addProduct(){
+  const name = (document.getElementById('np_name').value||'').trim(); 
+  const loc = (document.getElementById('np_loc').value||'').trim() || 'Principal'; 
+  const cat = document.getElementById('np_cat').value; 
+  const prov = document.getElementById('np_prov').value; 
+  const unit = (document.getElementById('np_unit').value||'kg').trim(); 
+  const min = parseInt(document.getElementById('np_min').value) || 0; 
+  const price = parseFloat(document.getElementById('np_price').value) || 0;
+  
+  if(!name || !cat || !prov || !unit){ toast('Nombre, Categoría, Unidad y Proveedor son obligatorios','err'); return; }
+  
+  catalog.unshift({ id: Date.now(), name, cat, unit, min, price, prov, locs: [{name: loc, qty: 0}], stock: 0, venc: '', hidden: false }); 
+  log('Producto', `Añadido: ${name}`); 
+  persist(); closeModal(); toast('Agregado','ok'); renderAdmin();
+}
+function delProduct(id){ const p = catalog.find(x=>x.id===id); modal('Eliminar producto', `<p>¿Eliminar <strong>${p?.name}</strong>?</p>`, `<button class="btn btn-danger" onclick="doDelProduct(${id})"><i class="ph ph-trash"></i> Eliminar</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`); }
+function doDelProduct(id){ catalog = catalog.filter(x=>x.id!==id); persist(); closeModal(); toast('Eliminado'); renderAdmin(); }
+function updateP(id, field, val){ const p=catalog.find(x=>x.id===id); if(p) p[field]=val; }
+function toggleVisibility(id) { const p = catalog.find(x => x.id === id); if(p) { p.hidden = !p.hidden; persist(); renderAdmin(true); } }
+function saveTable(){ log('Catálogo', `Guardado completo`); persist(); toast('Catálogo guardado','ok'); renderStock(); }
+
+function addProv(){ const name = (document.getElementById('np').value||'').trim(); if(!name){ toast('Escribí el nombre','err'); return; } const id = name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,''); if(provs.find(p=>p.id===id)){ toast('Ya existe','err'); return; } provs.unshift({id, name}); log('Proveedor', name); persist(); toast(`Añadido`,'ok'); renderAdmin(); }
+function delProv(id){ const p = provs.find(x=>x.id===id); modal('Eliminar', `<p>¿Eliminar <strong>${p?.name}</strong>?</p>`, `<button class="btn btn-danger" onclick="doDelProv('${id}')"><i class="ph ph-trash"></i> Eliminar</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`); }
+function doDelProv(id){ provs = provs.filter(x=>x.id!==id); persist(); closeModal(); toast('Eliminado'); renderAdmin(); }
+
+function addTaskTpl() { const text = (document.getElementById('nt').value || '').trim(); if (!text) { toast('Escribí la tarea', 'err'); return; } const newId = Date.now(); templateTasks.unshift({ id: newId, text, done: false }); rutina.tareas.unshift({ id: newId, text, done: false }); log('Rutina', `Nueva tarea`); persist(); toast('Añadida', 'ok'); renderAdmin(); }
+function delTaskTpl(id) { const t = templateTasks.find(x => x.id === id); modal('Eliminar tarea', `<p>¿Eliminar <strong>${t?.text}</strong>?</p>`, `<button class="btn btn-danger" onclick="doDelTaskTpl(${id})"><i class="ph ph-trash"></i> Eliminar</button><button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>`); }
+function doDelTaskTpl(id) { templateTasks = templateTasks.filter(x => x.id !== id); rutina.tareas = rutina.tareas.filter(x => x.id !== id); persist(); closeModal(); toast('Eliminada'); renderAdmin(); }
+
+function exportData() { const data = { CATS, UNITS, catalog, provs, history, audit, rutina, templateTasks, diasAlertaVenc, clients, cashDiscountPct, businessName, businessTag, businessLogo }; const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `pescaderia_respaldo_${new Date().toISOString().split('T')[0]}.json`; a.click(); URL.revokeObjectURL(url); toast('Descargado', 'ok'); }
+function importData(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); if (data.catalog && data.provs) { CATS = data.CATS || SEED_CATS; UNITS = data.UNITS || SEED_UNITS; catalog = data.catalog; provs = data.provs; history = data.history || []; audit = data.audit || []; rutina = data.rutina || { fecha: '', tareas: [] }; templateTasks = data.templateTasks || SEED_TASKS; clients = data.clients || []; if (data.diasAlertaVenc !== undefined) diasAlertaVenc = data.diasAlertaVenc; if (data.cashDiscountPct !== undefined) cashDiscountPct = data.cashDiscountPct; if (data.businessName !== undefined) businessName = data.businessName; if (data.businessTag !== undefined) businessTag = data.businessTag; if (data.businessLogo !== undefined) businessLogo = data.businessLogo; persist(); restore(); updateBranding(); renderAdmin(); toast('Restaurado', 'ok'); } else { toast('Archivo inválido', 'err'); } } catch (err) { toast('Error de lectura', 'err'); } event.target.value = ''; }; reader.readAsText(file); }
+
+function openAudit(){ const html = audit.slice(0,50).map(e=>`<div style="padding:10px 0; border-bottom:1px solid var(--line);"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div style="font-size:13px; color:var(--t1); font-weight:600;">${e.action}</div><div style="font-size:11px; color:var(--t3);"><i class="ph ph-clock"></i> ${e.ts}</div></div>${e.detail?`<div style="font-size:12px; color:var(--t2); line-height:1.4;">${e.detail}</div>`:''}</div>`).join('') || '<p style="text-align:center;">Sin registros</p>'; modal('Bitácora', `<div style="max-height:350px;overflow-y:auto;text-align:left;padding-right:8px;">${html}</div>`, `<button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>`); }
+
+restore(); updateBranding(); applyTheme(); log('App iniciada',`${businessName} ${businessTag} v4.3`); render('stock');
+if (gsUrl) gsStartPull();
+
+/* ── PWA ── */
+(function setupPWA() {
+  const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#18191d"/><text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="280" fill="#4ade80">🐟</text></svg>`;
+  const iconUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgIcon)));
+  const manifest = { name: "Pescadería Pro", short_name: "Pescadería", display: "standalone", start_url: location.href, background_color: "#111214", theme_color: "#111214", icons: [{ src: iconUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }] };
+  document.head.insertAdjacentHTML('beforeend', `<link rel="manifest" href="${URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type: 'application/json'}))}"><meta name="theme-color" content="#111214"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="${iconUrl}">`);
+})();
+</script>
+</body>
+</html>
